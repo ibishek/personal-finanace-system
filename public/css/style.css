@@ -1,3 +1,151 @@
+:root {
+    --color-1: #05386b;
+    --color-2: #379683;
+    --color-3: #5cdb95;
+    --color-4: #8ee4af;
+    --color-5: #edf5e1;
+}
+
 body {
-	font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    color: var(--color-1);
+}
+
+main {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.btn-primary,
+.btn-primary:focus,
+.btn-primary.focus {
+    background-color: var(--color-2);
+    border-color: var(--color-2);
+    color: var(--color-5);
+    border-radius: 0;
+}
+
+.btn-primary:hover,
+.btn-primary:not(:disabled):not(.disabled).active,
+.btn-primary:not(:disabled):not(.disabled):active {
+    color: var(--color-2);
+    background-color: #fff;
+    border: var(--color-2) 1px solid;
+}
+
+.btn-show {
+    color: #fff;
+    background-color: var(--color-1);
+    border-color: var(--color-1);
+    border-radius: 0;
+}
+
+.btn-show:hover {
+    color: var(--color-1);
+    background-color: #fff;
+    border-color: var(--color-1);
+}
+
+.btn-edit {
+    color: #fff;
+    background-color: #1ba95a;
+    border-color: #1ba95a;
+    border-radius: 0;
+}
+
+.btn-edit:hover {
+    color: #1ba95a;
+    border-color: #1ba95a;
+    background-color: #fff;
+}
+
+.btn-danger {
+    border-radius: 0;
+}
+
+.btn-danger:hover {
+    color: #dc3545;
+    background-color: #fff;
+    border-color: #dc3545;
+}
+
+.btn-info {
+    border-radius: 0;
+}
+
+.btn-info:hover {
+    color: #17a2b8;
+    border-color: #17a2b8;
+    background-color: #fff;
+}
+
+a {
+    color: var(--color-2);
+}
+
+a.link-custom:hover {
+    text-decoration: none;
+    color: var(--color-1);
+    background-repeat: no-repeat;
+    background-position: top right;
+    background-size: 90% 100%;
+    background-image: linear-gradient(transparent 60%, #449181e0 60%);
+}
+
+.sidebar {
+    background-color: var(--color-2);
+    color: #fff;
+    width: 0;
+    display: none;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.sidebar-resize {
+    position: absolute;
+    z-index: 126;
+}
+
+main.toggled .sidebar {
+    max-width: 350px;
+    min-width: 208px;
+    display: block;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+ul.list-unstyled {
+    text-indent: 1.5rem;
+}
+
+ul.list-unstyled.collapse {
+    text-indent: 2.5rem;
+}
+
+.list-item,
+.list-item>ul>li {
+    padding: .5rem 0;
+}
+
+ul.list-unstyled li:hover {
+    background-color: var(--color-1);
+}
+
+ul.list-unstyled li>a {
+    color: #fff;
+}
+
+ul.list-unstyled li>a:hover {
+    color: var(--color-5);
+}
+
+.cursor-none {
+    cursor: none !important;
 }

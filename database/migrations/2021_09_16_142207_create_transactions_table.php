@@ -17,15 +17,15 @@ class CreateTransactionsTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('desc')->nullable();
-            $table->unsignedBigInteger('budgets_id');
-            $table->unsignedBigInteger('modes_id');
-            $table->unsignedBigInteger('types_id');
+            $table->unsignedBigInteger('budget_id');
+            $table->unsignedBigInteger('mode_id');
+            $table->unsignedBigInteger('category_id');
             $table->float('amount', 9, 2);
             $table->timestamps();
             
-            $table->foreign('budgets_id')->references('id')->on('budgets');
-            $table->foreign('types_id')->references('id')->on('types');
-            $table->foreign('modes_id')->references('id')->on('payment_modes');
+            $table->foreign('budget_id')->references('id')->on('budgets');
+            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('mode_id')->references('id')->on('payment_modes');
         });
     }
 

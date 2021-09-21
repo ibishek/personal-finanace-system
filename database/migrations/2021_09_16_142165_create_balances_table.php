@@ -15,8 +15,11 @@ class CreateBalancesTable extends Migration
     {
         Schema::create('balances', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('mode_id')->unique();
             $table->float('amount', 9, 2);
             $table->timestamps();
+
+            $table->foreign('mode_id')->references('id')->on('payment_modes');
         });
     }
 

@@ -3,8 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\user;
-use Illuminate\Support\Facades\Hash;
+use DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,8 +15,16 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        $this->call(UserSeeder::class);
-        $this->call(TransactionTypeSeeder::class);
-        $this->call(PaymentModeSeeder::class);
+        try {
+            DB::beginTransaction();
+            $this->call(UserSeeder::class);
+            $this->call(CategorySeeder::class);
+            $this->call(PaymentModeSeeder::class);
+            $this->call(BalanceSeeder::class);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            dd($e);
+        }
     }
 }

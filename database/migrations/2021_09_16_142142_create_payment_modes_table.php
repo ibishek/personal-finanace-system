@@ -17,6 +17,7 @@ class CreatePaymentModesTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('desc')->nullable();
+            $table->boolean('is_deletable')->default(1);
             $table->timestamps();
         });
     }

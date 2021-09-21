@@ -18,12 +18,12 @@ class CreateRemindersTable extends Migration
             $table->string('title');
             $table->string('desc')->nullable();
             $table->float('amount', 9, 2);
-            $table->unsignedBigInteger('types_id');
+            $table->unsignedBigInteger('category_id');
             $table->dateTime('payment_date');
             $table->integer('alert_before');
             $table->timestamps();
-            
-            $table->foreign('types_id')->references('id')->on('types')->onDelete('cascade');
+
+            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 

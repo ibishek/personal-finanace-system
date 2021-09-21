@@ -11,6 +11,8 @@ class Budget extends Model
 
     protected $table = 'budgets';
 
+    protected $dates = ['expiry_date'];
+
     protected $fillable = [
         'title',
         'desc',

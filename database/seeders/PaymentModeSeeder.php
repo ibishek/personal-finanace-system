@@ -15,10 +15,10 @@ class PaymentModeSeeder extends Seeder
     public function run()
     {
         $modes = array(
-            array('title' => 'Cash'),
-            array('title' => 'Debit/Credit Card'),
-            array('title' => 'E-Wallets'),
-            array('title' => 'Wire Transfer'),
+            array('title' => 'Cash on Hand', 'is_deletable' => 0),
+            array('title' => 'Debit/Credit Card', 'is_deletable' => 0),
+            array('title' => 'E-Wallets', 'is_deletable' => 0),
+            array('title' => 'Wire Transfer', 'is_deletable' => 0),
         );
 
         PM::insert($modes);
