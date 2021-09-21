@@ -22,14 +22,14 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 
 ## Install
 
--   **`$ git clone https://github.com/ibishek/personal-finanace-system.git`**
--   **`$ cd project-folder`**
--   **`$ composer install`**
--   **`$ npm install`**
--   **`$ php artisan migrate`**
--   **`$ php artisan db:seed`**
--   **`$ php artisan serve`**
--   **User-email: `info@jondoe.com` and User-password: `jondoe` or click on default login button**
+-   `$ git clone https://github.com/ibishek/personal-finanace-system.git`
+-   `$ cd project-folder`
+-   `$ composer install`
+-   `$ npm install`
+-   `$ php artisan migrate`
+-   `$ php artisan db:seed`
+-   `$ php artisan serve`
+-   User-email: `info@jondoe.com` and User-password: `jondoe` or click on default login button
 
 ## Code of Conduct
 
