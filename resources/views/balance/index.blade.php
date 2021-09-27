@@ -3,7 +3,10 @@
 @section('content')
 <x-header title="All Balances Information" showCreate="false" link="" />
 @include('layouts.session')
-<table class="table table-striped table-hover p-2">
+<div class="col-md-12">
+    <canvas id="bar-index"></canvas>
+</div>
+<table class="table table-striped table-hover mt-4 p-2">
     <thead>
         <tr>
             <th>S.N.</th>
@@ -16,16 +19,18 @@
         @forelse ($balances as $balance)
         <tr>
             <td>{{ $loop->iteration }}</td>
+            {{-- <td>{{ $balance->paymentMode>title }}</td> --}}
             {{-- <td>{{ $balance->getPaymentModeName($balance->mode_id) }}</td> --}}
             {{-- moethod below is still faster than comented method above, still both works though --}}
             <td>
                 @foreach ($modes as $mode)
                 @if ($balance->mode_id == $mode->id)
                 {{ $mode->title }}
+                @break;
                 @endif
                 @endforeach
             </td>
-            <td id="correctAmount">{{ $balance->amount }}</td>
+            <td class="format-amount" data-amount={{ $balance->amount }}></td>
             <td>
                 <a href="{{ url('api/balances/show', $balance->id) }}" class="btn btn-show">Show</a>
             </td>
@@ -39,9 +44,8 @@
 </table>
 @endsection
 
-@section('content')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-<script>
-    $('#correctAmount').val().mask('#,##0.00');
-</script>
+@section('script')
+<script src="{{ asset('js/accounting.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ asset('js/balance.index.min.js') }}"></script>
 @endsection

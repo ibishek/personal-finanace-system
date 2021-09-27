@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Balance;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\{Balance, Transaction};
+use Illuminate\Database\Eloquent\Relations\{HasOne, HasMany};
+
 
 class PaymentMode extends Model
 {
@@ -18,10 +19,20 @@ class PaymentMode extends Model
     /**
      * Get the balance that owns the PaymentMode
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function balance(): BelongsTo
+    public function balance(): HasOne
     {
-        return $this->belongsTo(Balance::class, 'mode_id');
+        return $this->hasOne(Balance::class, 'mode_id');
+    }
+
+    /**
+     * Get all of the transaction for the PaymentMode
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function transaction(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'mode_id');
     }
 }

@@ -21,6 +21,7 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" />
 
     <!-- Styles -->
+    @yield('style')
     <link href="{{ asset('css/style.css') }}" rel="stylesheet" />
 </head>
 

@@ -1,4 +1,5 @@
 "use strict";
+// @ts-check
 $(function () {
     const sidebarHideAt = 1265; //at or below
     $("#sidebar-toggle").on("click", function (e) {
@@ -59,5 +60,18 @@ $(function () {
     $(".tableRow").on("click", function (e) {
         let getLink = this.getAttribute("data-link");
         window.location.href = getLink;
+    });
+    $("input[type=text]").on("keyup", function (e) {
+        if (e.key == "Escape") {
+            $(this).val("");
+        }
+    });
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        },
+    });
+    $(".format-amount").each(function () {
+        $(this).text(accounting.formatNumber($(this).attr("data-amount"), 2));
     });
 });

@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\AddBalance;
-use App\Models\Balance;
-use App\Models\PaymentMode;
+use App\Models\{Budget, Transaction, Category, PaymentMode};
+use App\Http\Requests\TransactionCreateRequest;
+use App\Services\{CacheRemember, TransactionService};
 
-class BalanceController extends Controller
+class TransactionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,12 +16,11 @@ class BalanceController extends Controller
      */
     public function index()
     {
-        $balances = Balance::all();
-        $modes = PaymentMode::select('id')
-            ->addSelect('title')
-            ->get();
-
-        return view('balance.index', compact('balances', 'modes'));
+        $transactions = Transaction::orderBy('created_at', 'DESC')
+            ->with(['budget', 'category'])
+            ->paginate(20);
+        $modes = (new CacheRemember)->getCache('mode');
+        return view('transaction.index', compact('transactions', 'modes'));
     }
 
     /**
@@ -31,7 +30,15 @@ class BalanceController extends Controller
      */
     public function create()
     {
-        //
+        $budget = Budget::select('id')->where('is_active', 1)->first();
+        if ($budget) {
+            $categories = Category::select(['id', 'title'])->get();
+            $modes = PaymentMode::select(['id', 'title'])->get();
+
+            return view('transaction.create', compact('categories', 'modes'));
+        }
+
+        return redirect('api/budgets/index')->with('error', 'Please create an active budget first.');
     }
 
     /**
@@ -40,9 +47,16 @@ class BalanceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TransactionCreateRequest $request)
     {
-        //
+        $validated = $request->validated();
+        $action = (new TransactionService())->onSave($validated);
+        // dd($action);
+        if (!$action['status']) {
+            return back()->with('error', $action['error'])->withInput();
+        }
+
+        return redirect('api/transactions/index')->with('success', $action['success']);
     }
 
     /**
@@ -53,9 +67,7 @@ class BalanceController extends Controller
      */
     public function show($id)
     {
-        $balance = Balance::findOrFail($id);
-
-        return view('balance.show', compact('balance'));
+        //
     }
 
     /**
@@ -66,9 +78,7 @@ class BalanceController extends Controller
      */
     public function edit($id)
     {
-        $balance = Balance::findOrFail($id);
-
-        return view('balance.add-balance', compact('balance'));
+        //
     }
 
     /**
@@ -80,19 +90,7 @@ class BalanceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'amount' => 'required',
-            'condition' => 'required'
-        ]);
-
-        $this->addBalance = new AddBalance();
-        $action = $this->addBalance->saveBalance($request->amount, $request->condition, $id);
-
-        if (!$action['status']) {
-            return redirect()->back()->with('error', $action['error']);
-        }
-
-        return redirect('api/balances/index')->with('success', 'Operaton completed successfully');
+        //
     }
 
     /**

@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\PaymentMode;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 
 class Balance extends Model
 {
@@ -18,11 +19,11 @@ class Balance extends Model
     /**
      * Get the paymentMode associated with the Balance
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function paymentMode(): HasOne
+    public function paymentMode(): BelongsTo
     {
-        return $this->hasOne(PaymentMode::class, 'id');
+        return $this->belongsTo(PaymentMode::class, 'id');
     }
 
     public function getPaymentModeName($id)

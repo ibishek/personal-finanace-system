@@ -1,5 +1,5 @@
 <?php
-
+//phpcs:ignoreFile
 namespace App\Services;
 
 use Illuminate\Support\Facades\Crypt;
@@ -9,34 +9,47 @@ use App\Models\Balance;
 
 class AddBalance
 {
-    public function __construct()
-    {
-        $this->unmask = new UnmaskAmount();
-    }
-
     public function saveBalance($amount, $condition, $id)
     {
-        $unmaskedAmount = $this->unmask->unmask($amount);
+        $unmaskedAmount = UnmaskAmount::unmask($amount);
 
         try {
             $decryptedCondition = Crypt::decrypt($condition);
         } catch (DecryptException $e) {
-            return false;
+            $reject = [
+                'status' => false,
+                'error' => 'It looks like you have messed around with markup'
+            ];
+            return $reject;
         }
 
         $balance = Balance::findOrFail($id);
 
         if ($decryptedCondition == 'incre') {
             $balance->increment('amount', $unmaskedAmount);
-            return true;
+            $resolve = [
+                'status' => true
+            ];
+            return $resolve;
         } elseif ($decryptedCondition == 'decre') {
             if ($balance->amount < $unmaskedAmount) {
-                return false;
+                $reject = [
+                    'status' => false,
+                    'error' => 'Requested amount is less than balance amount'
+                ];
+                return $reject;
             }
             $balance->decrement('amount', $unmaskedAmount);
-            return true;
+            $resolve = [
+                'status' => true
+            ];
+            return $resolve;
         } else {
-            return false;
+            $reject = [
+                'status' => false,
+                'error' => 'Problems encountered while processing your request'
+            ];
+            return $reject;
         }
     }
 }

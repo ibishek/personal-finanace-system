@@ -8,6 +8,9 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Controllers\CurrentBudgetController;
+use App\Services\CacheRemember;
+
 class LoginController extends Controller
 {
     /*
@@ -31,8 +34,10 @@ class LoginController extends Controller
     // protected $redirectTo = RouteServiceProvider::HOME;
     protected function authenticated()
     {
+        (new CurrentBudgetController())->whetherBudgetIsExpired();
+        (new CacheRemember())->cacheAll();
         if (Auth::check()) {
-            return redirect()->route('home');
+            return redirect('api/home');
         }
     }
 

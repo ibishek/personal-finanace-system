@@ -5,6 +5,7 @@ use App\Http\Controllers\{
     BalanceController,
     BudgetController,
     CategoryController,
+    CurrentBudgetController,
     PaymentModeController,
     ReminderController,
     TransactionController,
@@ -37,9 +38,12 @@ Route::middleware('auth')->group(function () {
         Route::get('balances/add-balance/{id}', [BalanceController::class, 'edit']);
         Route::put('balances/add-balance/{id}', [BalanceController::class, 'update']);
 
-        //Budget Controller
+        //Budget and CurrentBudgetController Controller
         Route::get('budgets/index', [BudgetController::class, 'index']);
+        Route::get('budgets/current', [CurrentBudgetController::class, 'index']);
         Route::get('budgets/show/{id}', [BudgetController::class, 'show']);
+        Route::get('budgets/create', [BudgetController::class, 'create']);
+        Route::post('budgets/store', [BudgetController::class, 'store']);
 
         //Category Controller
         Route::get('categories/index', [CategoryController::class, 'index']);
@@ -57,10 +61,15 @@ Route::middleware('auth')->group(function () {
         Route::post('payment-modes/store', [PaymentModeController::class, 'store']);
         Route::get('payment-modes/edit/{id}', [PaymentModeController::class, 'edit']);
         Route::put('payment-modes/update/{id}', [PaymentModeController::class, 'update']);
+        Route::get('payment-modes/amount/{id}', [PaymentModeController::class, 'amount']);
         Route::delete('payment-modes/delete/{id}', [PaymentModeController::class, 'destroy']);
 
         //Reminder Controller
 
         //Transaction Controller
+        Route::get('transactions/index', [TransactionController::class, 'index']);
+        Route::get('transactions/show/{id}', [TransactionController::class, 'show']);
+        Route::get('transactions/create', [TransactionController::class, 'create']);
+        Route::post('transactions/store', [TransactionController::class, 'store']);
     });
 });

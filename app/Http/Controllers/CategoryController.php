@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Services\CacheRemember;
+use Illuminate\Support\Facades\Cache;
 
 class CategoryController extends Controller
 {
@@ -14,7 +16,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        // $categories = Category::all();
+        $categories = (new CacheRemember)->getCache('category');
 
         return view('category.index', compact('categories'));
     }
@@ -32,8 +35,8 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @ param  \Illuminate\Http\Request  $request
+     * @ return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -42,9 +45,9 @@ class CategoryController extends Controller
             'desc' => ['string', 'nullable'],
             'entry' => ['string', 'required', 'max:2']
         ]);
-
         Category::create($request->all());
 
+        (new CacheRemember())->cacheCategory();
         return redirect('api/categories/index')->with('success', 'Category is created successfully');
     }
 
@@ -88,10 +91,10 @@ class CategoryController extends Controller
             'desc' => ['string', 'nullable'],
             'entry' => ['string', 'required', 'max:2']
         ]);
-
         $category = Category::findOrFail($id);
         $category->update($request->all());
 
+        (new CacheRemember())->cacheCategory();
         return redirect('api/categories/index')->with('success', 'Category is updated successfully');
     }
 
@@ -107,6 +110,7 @@ class CategoryController extends Controller
 
         $category->delete();
 
+        (new CacheRemember())->cacheBudget();
         return redirect('api/categories/index')->with('success', 'Category is deleted successfully');
     }
 }

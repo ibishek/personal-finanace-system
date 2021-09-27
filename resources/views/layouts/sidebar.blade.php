@@ -10,11 +10,11 @@
             aria-controls="budgetCollapse">Budget</a>
         <ul class="list-unstyled collapse mt-2" id="budgetCollapse">
             <li>
-                <a href="#">{{ __("View") }}</a>
+                <a href="{{ url('api/budgets/current') }}">{{ __("View") }}</a>
                 <span class="badge badge-success badge-pill">Current</span>
             </li>
             <li>
-                <a href="#">{{ __('Create') }}</a>
+                <a href="{{ url('api/budgets/create') }}">{{ __('Create') }}</a>
             </li>
             <li>
                 <a href="{{ url('api/budgets/index') }}">{{ __('View All') }}</a>
@@ -59,13 +59,13 @@
     </li>
     <li class="list-item">
         <a data-toggle="collapse" href="#transactionCollapse" role="button" aria-expanded="false"
-            aria-controls="transactionCollapse">Transcation</a>
+            aria-controls="transactionCollapse">Transaction</a>
         <ul class="list-unstyled collapse mt-2" id="transactionCollapse">
             <li>
-                <a href="#">{{ __("View") }}</a>
+                <a href="{{ url('api/transactions/index') }}">{{ __("View") }}</a>
             </li>
             <li>
-                <a href="#">{{ __('Add') }}</a>
+                <a href="{{ url('api/transactions/create') }}">{{ __('Create') }}</a>
             </li>
         </ul>
     </li>

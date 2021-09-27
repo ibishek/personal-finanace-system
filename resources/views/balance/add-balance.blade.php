@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<x-header title="Add Amount" showCreate="false" link="" />
+<x-header title="Add Balance" showCreate="false" link="" />
 @include('layouts.session')
 <div class="card border-0 ml-2 mt-2">
     <div class="card-body">

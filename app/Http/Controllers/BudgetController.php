@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Budget;
+use App\Models\{Budget, Category, Transaction};
+use App\Http\Requests\BudgetCreateRequest;
+use App\Services\{CacheRemember, UnmaskAmount};
 
 class BudgetController extends Controller
 {
@@ -14,7 +16,7 @@ class BudgetController extends Controller
      */
     public function index()
     {
-        $budgets = Budget::all();
+        $budgets = Budget::orderBy('created_at', 'DESC')->paginate(20);
 
         return view('budget.index', compact('budgets'));
     }
@@ -26,7 +28,12 @@ class BudgetController extends Controller
      */
     public function create()
     {
-        //
+        $budget = Budget::where('is_active', 1)->count();
+        if ($budget === 1) {
+            return redirect('api/budgets/current')->with('error', 'There is a current active budget. So, you can not create another budget.');
+        }
+
+        return view('budget.create');
     }
 
     /**
@@ -35,9 +42,16 @@ class BudgetController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BudgetCreateRequest $request)
     {
-        //
+        $validated = $request->validated();
+        $validated['alloted_amount'] = UnmaskAmount::unmask($validated['alloted_amount']);
+        $validated['balance_amount'] = $validated['alloted_amount'];
+        $validated['is_active'] = 1;
+        Budget::create($validated);
+
+        (new CacheRemember())->cacheBudget();
+        return redirect('api/budgets/index')->with('success', 'Budget successfully created');
     }
 
     /**
@@ -49,8 +63,15 @@ class BudgetController extends Controller
     public function show($id)
     {
         $budget = Budget::findOrFail($id);
+        $totalTransactions = Transaction::where('budget_id', $budget->id)->count();
+        $categoriesId = Category::getAllIdHavingDebitEntry();
+        $incomeTransactions = 0;
+        foreach ($categoriesId as $cId) {
+            $incomeTransactions += Transaction::where(['budget_id' => $id, 'category_id' => $cId->id])
+                ->count();
+        }
 
-        return view('budget.show', compact('budget'));
+        return view('budget.show', compact('budget', 'totalTransactions', 'incomeTransactions'));
     }
 
     /**

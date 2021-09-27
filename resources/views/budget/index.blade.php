@@ -8,9 +8,9 @@
         <tr>
             <th>S.N.</th>
             <th>Title</th>
-            <th>Allocated Amount</th>
-            <th>Spended Amount</th>
-            <th>Savings Amount</th>
+            <th>Alloted Amount</th>
+            <th>Spending</th>
+            <th>Savings</th>
             <th>Out of Comission at</th>
             <th>Status</th>
             <th>Created At</th>
@@ -21,9 +21,9 @@
         <tr data-link="{{ url('api/budgets/show', $budget->id) }}" class="tableRow" style="cursor: pointer">
             <td>{{ $loop->iteration }}</td>
             <td>{{ $budget->title }}</td>
-            <td>{{ $budget->alloted_amount }}</td>
-            <td>{{ $budget->alloted_amount - $budget->balance_amount }}</td>
-            <td>{{ $budget->balance_amount }}</td>
+            <td class="format-amount" data-amount="{{ $budget->alloted_amount }}"></td>
+            <td class="format-amount" data-amount="{{ $budget->alloted_amount - $budget->balance_amount }}"></td>
+            <td class="format-amount" data-amount="{{ $budget->balance_amount }}"></td>
             <td>{{ $budget->expiry_date->format('Y-M-d l') }}</td>
             <td>
                 @if ($budget->is_active == 1) <span class="badge badge-primary badge-pills">Active</span>
@@ -40,4 +40,11 @@
         @endforelse
     </tbody>
 </table>
+<div class="ml-2 float-right">
+    {{ $budgets->links() }}
+</div>
+@endsection
+
+@section('script')
+<script src="{{ asset('js/accounting.min.js') }}"></script>
 @endsection

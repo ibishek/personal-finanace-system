@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\PaymentMode;
-use App\Models\Balance;
-use App\Services\PaymentModeDelete;
+use App\Models\{Balance, PaymentMode};
+use App\Services\{CacheRemember, PaymentModeDelete};
 use DB;
 
 class PaymentModeController extends Controller
@@ -17,9 +16,25 @@ class PaymentModeController extends Controller
      */
     public function index()
     {
-        $paymentModes = PaymentMode::all();
+        // $paymentModes = PaymentMode::all();
+        $paymentModes = (new CacheRemember)->getCache('mode');
 
         return view('payment-mode.index', compact('paymentModes'));
+    }
+
+    /**
+     * Ajax Method
+     * 
+     * Return the amount from id
+     *
+     * @param int $id
+     * @return float amount
+     */
+    public function amount($id)
+    {
+        $amount = Balance::select('amount')->where('mode_id', $id)->first();
+
+        return response()->json($amount, 200);
     }
 
     /**
@@ -60,7 +75,7 @@ class PaymentModeController extends Controller
             return redirect('api/payment-modes/index')->with('error', 'ERROR: While creating payment mode');
         }
 
-
+        (new CacheRemember())->cacheMode();
         return redirect('api/payment-modes/index')->with('success', 'Payment mode is created successfully');
     }
 
@@ -85,7 +100,9 @@ class PaymentModeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $mode = PaymentMode::findOrFail($id);
+
+        return view('payment-mode.edit', compact('mode'));
     }
 
     /**
@@ -97,7 +114,15 @@ class PaymentModeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'title' => ['required', 'string'],
+            'desc' => ['string', 'nullable']
+        ]);
+        $mode = PaymentMode::findOrFail($id);
+        $mode->update($request->all());
+
+        (new CacheRemember())->cacheMode();
+        return redirect('api/payment-modes/index')->with('success', 'Payment mode is updated successfully');
     }
 
     /**
@@ -111,8 +136,9 @@ class PaymentModeController extends Controller
         $this->paymentModeDelete = new PaymentModeDelete();
         $action = $this->paymentModeDelete->onDelete($id);
 
-        if (!$action) {
-            return redirect('api/payment-modes/index')->with('error', 'Payment mode can not be deleted');
+        if (!$action['status']) {
+            return redirect('api/payment-modes/index')
+                ->with('error', "ERROR: {$action['error']}");
         }
 
         try {
@@ -130,9 +156,10 @@ class PaymentModeController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect('api/payment-modes/index')->with('error', $e);
-        }
 
+            return redirect('api/payment-modes/index')->with('error', "ERROR: {$e}");
+        }
+        (new CacheRemember())->cacheMode();
         return redirect('api/payment-modes/index')->with('success', 'Payment mode is deleted succcessfully');
     }
 }

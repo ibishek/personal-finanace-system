@@ -19,7 +19,7 @@ class CreateBudgetsTable extends Migration
             $table->string('desc')->nullable();
             $table->float('alloted_amount', 9, 2);
             $table->float('balance_amount', 9, 2);
-            $table->dateTime('expiry_date');
+            $table->date('expiry_date');
             $table->boolean('is_active')->default(0);
             $table->timestamps();
         });

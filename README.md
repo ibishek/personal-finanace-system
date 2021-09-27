@@ -25,7 +25,7 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 -   `$ git clone https://github.com/ibishek/personal-finanace-system.git`
 -   `$ cd project-folder`
 -   `$ composer install`
--   `$ npm install`
+<!-- -   `$ npm install` -->
 -   `$ php artisan migrate`
 -   `$ php artisan db:seed`
 -   `$ php artisan serve`
