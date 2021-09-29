@@ -65,13 +65,15 @@ class BudgetController extends Controller
         $budget = Budget::findOrFail($id);
         $totalTransactions = Transaction::where('budget_id', $budget->id)->count();
         $categoriesId = Category::getAllIdHavingDebitEntry();
-        $incomeTransactions = 0;
+        $noOfIncomeTransactions = 0;
         foreach ($categoriesId as $cId) {
-            $incomeTransactions += Transaction::where(['budget_id' => $id, 'category_id' => $cId->id])
-                ->count();
+            $noOfIncomeTransactions += Transaction::where([
+                'budget_id' => $id,
+                'category_id' => $cId->id
+            ])->count();
         }
 
-        return view('budget.show', compact('budget', 'totalTransactions', 'incomeTransactions'));
+        return view('budget.show', compact('budget', 'totalTransactions', 'noOfIncomeTransactions'));
     }
 
     /**

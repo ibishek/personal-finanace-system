@@ -17,7 +17,7 @@ const data = {
     labels: labels,
     datasets: [
         {
-            label: "Current Balances",
+            label: "Amount: ",
             data: amount,
             backgroundColor: colors,
         },
@@ -31,6 +31,15 @@ const config = {
         scales: {
             y: {
                 beginAtZero: true,
+            },
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: "Current Balances",
+            },
+            legend: {
+                display: false,
             },
         },
     },

@@ -18,7 +18,7 @@
     </thead>
     <tbody>
         @forelse ($budgets as $budget)
-        <tr data-link="{{ url('api/budgets/show', $budget->id) }}" class="tableRow" style="cursor: pointer">
+        <tr data-link="{{ url('api/budgets/show', $budget->id) }}" class="href-row">
             <td>{{ $loop->iteration }}</td>
             <td>{{ $budget->title }}</td>
             <td class="format-amount" data-amount="{{ $budget->alloted_amount }}"></td>

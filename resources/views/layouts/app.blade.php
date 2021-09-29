@@ -92,7 +92,7 @@
                 </aside>
                 @endauth
 
-                <section class="col-md-10">
+                <section id="section" class="col-md-10">
                     @yield('content')
                 </section>
             </div>

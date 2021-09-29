@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Budget;
+use App\Models\{Budget, Category, Transaction};
 
 class CurrentBudgetController extends Controller
 {
@@ -18,8 +18,17 @@ class CurrentBudgetController extends Controller
         if ($budget) {
             // We must include last date as well
             $remainingDays = $this->remainingDays($budget->expiry_date) + 1;
+            $totalTransactions = Transaction::where('budget_id', $budget->id)->count();
+            $categoriesId = Category::getAllIdHavingDebitEntry();
+            $noOfIncomeTransactions = 0;
+            foreach ($categoriesId as $cId) {
+                $noOfIncomeTransactions += Transaction::where([
+                    'budget_id' => $budget->id,
+                    'category_id' => $cId->id
+                ])->count();
+            }
 
-            return view('budget.current', compact('budget', 'remainingDays'));
+            return view('budget.current', compact('budget', 'remainingDays', 'totalTransactions', 'noOfIncomeTransactions'));
         }
 
         return redirect('api/budgets/index')->with('error', 'There is no active budget found. Please create a new one.');

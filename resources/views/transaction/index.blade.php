@@ -16,18 +16,19 @@
     </thead>
     <tbody>
         @forelse ($transactions as $transaction)
-        <tr>
+        <tr class="href-row" data-link="{{ url('api/transactions/show', $transaction->id) }}">
             <td>{{ $loop->iteration }}</td>
             <td>{{ $transaction->title }}</td>
             <td>{{ $transaction->budget->title }}</td>
-            @forelse ($modes as $mode)
+            <td>{{ $transaction->paymentMode->title }}</td>
+            {{-- @forelse ($modes as $mode)
             @if ($transaction->mode_id == $mode->id)
             <td>{{ $mode->title }}</td>
             @break
             @endif
             @empty
             <td>-</td>
-            @endforelse
+            @endforelse --}}
             <td>{{ $transaction->category->title }}</td>
             <td class="format-amount" data-amount="{{ $transaction->amount }}"></td>
         </tr>

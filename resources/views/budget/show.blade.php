@@ -29,26 +29,48 @@
         </div>
         <div class="row mt-4">
             <div class="col-sm-4">
-                <div class="card text-white bg-primary mb-3">
+                <div class="card rounded-0 text-white bg-primary mb-3">
                     <div class="card-header">Total Transactions</div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $totalTransactions }}</h5>
+                    <div class="card-body flex-column">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title">{{ $totalTransactions }}</h5>
+                            </div>
+                            <div class="col-auto ps-0">
+                                <img src="{{ asset('icons/transaction.svg') }}" alt="transaction" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-sm-4">
-                <div class="card text-white bg-success mb-3">
-                    <div class="card-header">Income Transactions</div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $incomeTransactions }}</h5>
+                <div class="card rounded-0 text-white bg-success mb-3">
+                    <div class="card-header">Profitable Transactions</div>
+                    <div class="card-body flex-column">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title">{{ $noOfIncomeTransactions }}</h5>
+                            </div>
+                            <div class="col-auto ps-0">
+                                <img src="{{ asset('icons/credit-card.svg') }}" alt="proftable transaction" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-sm-4">
-                <div class="card text-white bg-danger mb-3">
-                    <div class="card-header">Expense Transactions</div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $totalTransactions - $incomeTransactions }}</h5>
+                <div class="card rounded-0 text-white bg-danger mb-3">
+                    <div class="card-header">Unprofitable Transactions</div>
+                    <div class="card-body flex-column">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title">{{ $totalTransactions - $noOfIncomeTransactions }}</h5>
+                            </div>
+                            <div class="col-auto ps-0">
+                                <img src="{{ asset('icons/credit-card.svg') }}" alt="unprofitable transaction"
+                                    style="fill: red" />
+                            </div>
+                        </div>
                     </div>
                 </div>
 

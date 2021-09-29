@@ -16,12 +16,9 @@ class BalanceController extends Controller
      */
     public function index()
     {
-        $balances = Balance::all();
-        $modes = PaymentMode::select('id')
-            ->addSelect('title')
-            ->get();
+        $balances = Balance::with('paymentMode')->get();
 
-        return view('balance.index', compact('balances', 'modes'));
+        return view('balance.index', compact('balances'));
     }
 
     /**
@@ -53,7 +50,7 @@ class BalanceController extends Controller
      */
     public function show($id)
     {
-        $balance = Balance::findOrFail($id);
+        $balance = Balance::with('paymentMode')->findOrFail($id);
 
         return view('balance.show', compact('balance'));
     }
@@ -66,7 +63,7 @@ class BalanceController extends Controller
      */
     public function edit($id)
     {
-        $balance = Balance::findOrFail($id);
+        $balance = Balance::with('paymentMode')->findOrFail($id);
 
         return view('balance.add-balance', compact('balance'));
     }

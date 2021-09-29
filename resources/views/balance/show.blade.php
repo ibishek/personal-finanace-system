@@ -5,7 +5,7 @@
 <div class="card border-0 mt-2">
     <div class="card-body ml-4">
         <div class="row">
-            <strong>Payment Mode: </strong> {{ $balance->getPaymentModeName($balance->mode_id) }}
+            <strong>Payment Mode: </strong> {{ $balance->paymentMode->title }}
         </div>
         <div class="row">
             <strong>Balance: </strong> {{ $balance->amount }}

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
+    AjaxDashboardController,
     BalanceController,
     BudgetController,
     CategoryController,
@@ -31,6 +32,15 @@ Auth::routes(['register' => false]);
 Route::middleware('auth')->group(function () {
     Route::prefix('/api')->group(function () {
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+        //Ajax and Dashboard Controller
+        Route::get('balances/current', [AjaxDashboardController::class, 'currentBalances']);
+        Route::get('budgets/current/name', [AjaxDashboardController::class, 'getCurrentBudget']); // not found throw message
+        Route::get('budgets/current/amount', [AjaxDashboardController::class, 'currentBudgetAmount']); // not found switch to latest
+        Route::get('budgets/previous', [AjaxDashboardController::class, 'previousBudgets']);
+        Route::get('dashboard/general-info', [AjaxDashboardController::class, 'firstRow']);
+        Route::get('transactions/ten-income', [AjaxDashboardController::class, 'tenIncomes']);
+        Route::get('transactions/ten-expense', [AjaxDashboardController::class, 'tenExpense']);
 
         //Balance Controller
         Route::get('balances/index', [BalanceController::class, 'index']);

@@ -41,7 +41,10 @@ class Budget extends Model
      */
     public static function getCurrentBudgetId()
     {
-        $budgetId = Budget::where('is_active', 1)->first();
-        return $budgetId->id;
+        $budget = Budget::where('is_active', 1)->first();
+        if (!$budget) {
+            $budget = Budget::latest()->first();
+        }
+        return $budget->id;
     }
 }

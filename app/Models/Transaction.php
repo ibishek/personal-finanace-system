@@ -43,7 +43,10 @@ class Transaction extends Model
      */
     public function paymentMode(): BelongsTo
     {
-        return $this->belongsTo(PaymentMode::class, 'id');
+        return $this->belongsTo(PaymentMode::class, 'mode_id', 'id')
+            ->withDefault([
+                'title' => '-'
+            ]);
     }
 
     /**

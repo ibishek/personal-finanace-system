@@ -57,4 +57,14 @@ class Category extends Model
     {
         return Category::select('id')->where('entry', 'dr')->get();
     }
+
+    /**
+     * Get all id form credit entry
+     *
+     * @return array
+     */
+    public static function getAllIdHavingCreditEntry()
+    {
+        return Category::select('id')->where('entry', 'cr')->get();
+    }
 }

@@ -17,7 +17,7 @@ class TransactionController extends Controller
     public function index()
     {
         $transactions = Transaction::orderBy('created_at', 'DESC')
-            ->with(['budget', 'category'])
+            ->with(['budget', 'category', 'paymentMode'])
             ->paginate(20);
         $modes = (new CacheRemember)->getCache('mode');
         return view('transaction.index', compact('transactions', 'modes'));
@@ -67,7 +67,9 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        //
+        $transaction = Transaction::with(['budget', 'category', 'paymentMode'])->findOrFail($id);
+
+        return view('transaction.show', compact('transaction'));
     }
 
     /**

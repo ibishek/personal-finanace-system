@@ -23,12 +23,9 @@ class Balance extends Model
      */
     public function paymentMode(): BelongsTo
     {
-        return $this->belongsTo(PaymentMode::class, 'id');
-    }
-
-    public function getPaymentModeName($id)
-    {
-        $name = PaymentMode::select('title')->where('id', $id)->first();
-        return $name->title;
+        return $this->belongsTo(PaymentMode::class, 'mode_id', 'id')
+            ->withDefault([
+                'title' => '-'
+            ]);
     }
 }

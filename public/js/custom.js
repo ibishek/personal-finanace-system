@@ -13,6 +13,15 @@ $(function () {
             if ($("aside.sidebar").hasClass("sidebar-resize")) {
                 $("aside.sidebar").removeClass("sidebar-resize");
             }
+            if ($("section#section").hasClass("col-md-10")) {
+                $("section#section")
+                    .removeClass("col-md-10")
+                    .addClass("col-md-12");
+            } else {
+                $("section#section")
+                    .removeClass("col-md-12")
+                    .addClass("col-md-10");
+            }
         }
     });
     function sidebarClose() {
@@ -20,6 +29,7 @@ $(function () {
             if ($("main#main").hasClass("toggled")) {
                 $("main#main").removeClass("toggled");
             }
+            $("section#section").removeClass("col-md-10").addClass("col-md-12");
         }
     }
     sidebarClose();
@@ -30,9 +40,11 @@ $(function () {
                 position: "absolute",
                 "z-index": "126",
             });
+            $("section#section").removeClass("col-md-10").addClass("col-md-12");
         } else {
             $("main#main").addClass("toggled");
             $("aside.sidebar").css("position", "relative");
+            $("section#section").removeClass("col-md-12").addClass("col-md-10");
         }
     });
     $(document).on("mouseup", function (e) {
@@ -57,9 +69,9 @@ $(function () {
         $("#submitButton").attr("value", getText);
         $("#submitButton").removeClass("cursor-none");
     });
-    $(".tableRow").on("click", function (e) {
-        let getLink = this.getAttribute("data-link");
-        window.location.href = getLink;
+    $(".href-row").on("click", function (e) {
+        let getUrl = $(this).attr("data-link");
+        window.location.href = getUrl;
     });
     $("input[type=text]").on("keyup", function (e) {
         if (e.key == "Escape") {
