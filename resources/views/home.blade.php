@@ -98,7 +98,7 @@
 <div class="row m-2">
     <div class="col-lg-6">
         <div class="card border-0">
-            <div class="card-header p-0 bg-white">Previus Budgets</div>
+            <div class="card-header p-0 bg-white">Previous Budgets</div>
             <div class="card-body p-0">
                 <canvas id="previus-budgets"></canvas>
             </div>

@@ -100,52 +100,116 @@ $(function () {
         type: "get",
         dataType: "json",
         success: (data) => {
-            // const expRemainingAmount =
-            //     data[0].alloted_amount - currentBudgetExpense;
-            // expenseData.datasets[0].data = data[0].alloted_amount;
-            // second.push(currentBudgetExpense);
-            // second.push(expRemainingAmount);
-            // console.log(expenseData.datasets, second);
-            // expenseData.datasets[1].data = second;
-            // expenseChart.update();
+            let expRemainingAmount;
+            if (data[0].alloted_amount > currentBudgetIncome) {
+                incData.datasets[0].data = data[0].alloted_amount;
+                incomeData.push(data[0].alloted_amount);
+                incomeData.push(currentBudgetIncome);
+                incomeLabels = ["Budget Amount", "Total Income Amount"];
+                incomeColors = ["#5969ff", "#43a047"];
+                incData.labels = incomeLabels;
+                incData.datasets[1].backgroundColor = incomeColors;
+                incChart.update();
+            } else {
+                incData.datasets[0].data = currentBudgetIncome;
+                incomeData.push(currentBudgetIncome);
+                incomeData.push(data[0].alloted_amount);
+                incomeLabels = ["Total Income Amount", "Budget Amount"];
+                incomeColors = ["#43a047", "#5969ff"];
+                incData.labels = incomeLabels;
+                incData.datasets[1].backgroundColor = incomeColors;
+                incChart.update();
+            }
+            expRemainingAmount = data[0].alloted_amount - currentBudgetExpense;
+            expData.datasets[0].data = data[0].alloted_amount;
+            second.push(expRemainingAmount);
+            second.push(currentBudgetExpense);
+            expData.datasets[1].data = second;
+            expChart.update();
         },
     });
 
-    // % of Income
-    // % of Expense
-    let first = []; //#5969ff, #fe407a, #bff2fb
+    let incomeData = []; //#5969ff, #fe407a, #bff2fb
+    let incomeLabels = [];
+    let incomeColors = [];
     let second = [];
-    const data = {
-        labels: ["Red"],
+
+    // % of Income
+    const incData = {
+        labels: ["Remaining", "Expense"],
         datasets: [
             {
                 label: "Dataset 1",
-                data: 45000,
-                backgroundColor: "#5969ff",
+                data: [81000],
+                backgroundColor: ["#bff2fb"],
+            },
+            {
+                label: "Dataset 1",
+                data: [75000, 6000],
+                backgroundColor: ["#5969ff", "#43a047"],
             },
         ],
     };
 
-    const config = {
+    const incConfig = {
         type: "doughnut",
-        data: data,
+        data: incData,
         options: {
             responsive: true,
             plugins: {
                 legend: {
-                    position: "top",
+                    display: false,
                 },
                 title: {
-                    display: true,
-                    text: "Current Expenses % of Budget",
+                    display: false,
+                    text: "% of Income",
                 },
             },
         },
     };
 
-    const expenseChart = new Chart(
+    const incChart = new Chart(
+        document.getElementById("percent-of-income"),
+        incConfig
+    );
+
+    // % of Expense
+    const expData = {
+        labels: ["Remaining", "Expense"],
+        datasets: [
+            {
+                label: "Dataset 1",
+                data: [81000],
+                backgroundColor: ["#bff2fb"],
+            },
+            {
+                label: "Dataset 1",
+                data: [75000, 6000],
+                backgroundColor: ["#5969ff", "#fe407a"],
+            },
+        ],
+    };
+
+    const expConfig = {
+        type: "doughnut",
+        data: expData,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false,
+                },
+                title: {
+                    display: false,
+                    text: "% of Income",
+                },
+            },
+        },
+    };
+
+    const expChart = new Chart(
         document.getElementById("percent-of-expense"),
-        config
+        expConfig
     );
 
     //Previous Budgets
