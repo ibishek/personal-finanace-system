@@ -5,9 +5,6 @@ let colors = [];
 $("table>tbody>tr").each(function () {
     labels.push($(this).children("td:nth-child(2)").text().trim());
     amount.push($(this).children("td:nth-child(3)").attr("data-amount"));
-});
-
-labels.forEach(() => {
     colors.push(
         "#" + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, "0")
     );

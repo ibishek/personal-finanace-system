@@ -5,51 +5,56 @@ namespace App\Services;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 use App\Services\UnmaskAmount;
-use App\Models\Balance;
+use App\Models\PaymentOption;
 
 class AddBalance
 {
-    public function saveBalance($amount, $condition, $id)
+    /**
+     * Deposit or withdrw balance based on condition or already avilable balance
+     *
+     * @param float $getBalance
+     * @param string $condition
+     * @param int $id
+     * @return array
+     */
+    public function saveBalance($getBalance, $condition, $id)
     {
-        $unmaskedAmount = UnmaskAmount::unmask($amount);
+        $unmaskedAmount = UnmaskAmount::unmask($getBalance);
 
         try {
             $decryptedCondition = Crypt::decrypt($condition);
         } catch (DecryptException $e) {
-            $reject = [
+            return [
                 'status' => false,
                 'error' => 'It looks like you have messed around with markup'
             ];
-            return $reject;
         }
 
-        $balance = Balance::findOrFail($id);
+        $paymentOption = PaymentOption::findOrFail($id);
 
         if ($decryptedCondition == 'incre') {
-            $balance->increment('amount', $unmaskedAmount);
-            $resolve = [
-                'status' => true
+            $paymentOption->increment('balance', $unmaskedAmount);
+            return [
+                'status' => true,
+                'success' => 'Balance deposited successfully'
             ];
-            return $resolve;
         } elseif ($decryptedCondition == 'decre') {
-            if ($balance->amount < $unmaskedAmount) {
-                $reject = [
+            if ($paymentOption->balance < $unmaskedAmount) {
+                return [
                     'status' => false,
                     'error' => 'Requested amount is less than balance amount'
                 ];
-                return $reject;
             }
-            $balance->decrement('amount', $unmaskedAmount);
-            $resolve = [
-                'status' => true
+            $paymentOption->decrement('amount', $unmaskedAmount);
+            return [
+                'status' => true,
+                'success' => 'Balane withdrawn successfully'
             ];
-            return $resolve;
         } else {
-            $reject = [
+            return [
                 'status' => false,
                 'error' => 'Problems encountered while processing your request'
             ];
-            return $reject;
         }
     }
 }

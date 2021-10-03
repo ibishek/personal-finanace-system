@@ -113,7 +113,7 @@ class CurrentBudgetController extends Controller
     }
 
     /**
-     * Check whether current budget is expired or not
+     * Check whether current budget is expired or not at login time
      * 
      * @return null
      */

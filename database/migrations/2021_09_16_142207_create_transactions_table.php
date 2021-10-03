@@ -18,14 +18,14 @@ class CreateTransactionsTable extends Migration
             $table->string('title');
             $table->string('desc')->nullable();
             $table->unsignedBigInteger('budget_id');
-            $table->unsignedBigInteger('mode_id');
+            $table->unsignedBigInteger('option_id');
             $table->unsignedBigInteger('category_id');
             $table->float('amount', 9, 2);
             $table->timestamps();
-            
+
             $table->foreign('budget_id')->references('id')->on('budgets');
             $table->foreign('category_id')->references('id')->on('categories');
-            $table->foreign('mode_id')->references('id')->on('payment_modes');
+            $table->foreign('option_id')->references('id')->on('payment_options');
         });
     }
 

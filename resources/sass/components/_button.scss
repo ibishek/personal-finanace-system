@@ -1,0 +1,139 @@
+.btn-menu {
+    background-color: $color-white;
+    color: $color-1;
+    border-radius: 0;
+    margin-left: 20px;
+    &:hover {
+        color: $color-white;
+        background-color: $color-1;
+        animation-name: btn-hover;
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+    }
+}
+
+.btn-add-new {
+    background-color: $color-3;
+    color: $color-white;
+    border-radius: 0px;
+    &:hover {
+        color: $color-3;
+        background-color: $color-white;
+        border-color: $color-3;
+        animation-name: btn-styled;
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+    }
+}
+
+.btn-quick-back {
+    background-color: $color-4;
+    color: $color-white;
+    border-radius: 0;
+    &:hover {
+        color: $color-4;
+        background-color: $color-white;
+        border-color: $color-4;
+        animation-name: btn-styled;
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+    }
+}
+
+.btn-primary {
+    color: $color-white;
+    background-color: $color-1;
+    outline: 0;
+    border: 0px;
+    .focus {
+        color: $color-white;
+        background-color: $color-1;
+        border: 1px solid $color-1;
+        box-shadow: none;
+    }
+    &:focus {
+        color: $color-white;
+        background-color: $color-1;
+        border: 1px solid $color-1;
+        box-shadow: none;
+    }
+    &:hover {
+        background-color: $color-white;
+        border: 1px solid $color-1;
+        color: $color-1;
+    }
+}
+.btn-primary:not(:disabled):not(.disabled).active:focus,
+.btn-primary:not(:disabled):not(.disabled):active:focus,
+.show > .btn-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem #ff572234;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active,
+.btn-primary:not(:disabled):not(.disabled):active,
+.show > .btn-primary.dropdown-toggle {
+    color: $color-white;
+    background-color: $color-1;
+    border-color: $color-1;
+}
+
+.btn-show {
+    color: $color-white;
+    background-color: $color-4;
+    outline: 0;
+    &:hover {
+        color: $color-4;
+        background-color: $color-white;
+        border: 1px solid $color-4;
+    }
+}
+.btn-edit {
+    color: $color-white;
+    background-color: $color-6;
+    outline: 0;
+    &:hover {
+        color: $color-6;
+        background-color: $color-white;
+        border: 1px solid $color-6;
+    }
+}
+.btn-delete {
+    color: $color-white;
+    background-color: $color-danger;
+    outline: 0;
+    &:hover {
+        color: $color-danger;
+        border: 1px solid $color-danger;
+        background-color: $color-white;
+    }
+}
+
+@keyframes btn-hover {
+    0% {
+        border-radius: math($radius, 4);
+    }
+    50% {
+        border-radius: math($radius, 2);
+    }
+    100% {
+        border-radius: $radius;
+    }
+}
+
+@keyframes btn-styled {
+    0% {
+        border-radius: 0;
+    }
+    25% {
+        border-radius: math($radius, 4);
+    }
+    50% {
+        border-radius: math($radius, 3);
+    }
+    75% {
+        border-radius: math($radius, 2);
+    }
+    100% {
+        border-radius: $radius;
+    }
+}

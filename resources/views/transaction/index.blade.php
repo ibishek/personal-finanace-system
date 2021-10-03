@@ -3,7 +3,7 @@
 @section('content')
 <x-header title="All Transactions" showCreate="true" link="api/transactions/create" />
 @include('layouts.session')
-<table class="table table-striped table-hover mt-2 ml-2">
+<table class="table table-index table-striped table-hover m-2">
     <thead>
         <tr>
             <th>S.N.</th>

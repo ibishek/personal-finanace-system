@@ -10,9 +10,12 @@
             @csrf
             @method('put')
             <div>
-                <strong>Payment Mode: </strong>{{ $balance->paymentMode->title }}
+                <strong>Payment Mode: </strong>{{ $balance->title }}
             </div>
-            <div><strong>Current Balance: </strong>{{ $balance->amount }}</div>
+            <div><strong>Current Balance: </strong>
+                <span class="format-amount" data-amount="{{ $balance->balance }}"></span>
+            </div>
+
             <div class="mt-2">
                 <label for="condition">Condition</label>
                 <select name="condition" id="condition"
@@ -28,22 +31,23 @@
                 @enderror
             </div>
             <div class="mt-2">
-                <label for="amount">Amount</label>
-                <input type="text" class="form-control form-text rounded-0 @error('amount') is-invalid @enderror"
-                    name="amount" id="amount" value="{{ old('amount') }}" data-mask="#,##0.00"
+                <label for="balance">Amount</label>
+                <input type="text" class="form-control form-text rounded-0 @error('balance') is-invalid @enderror"
+                    name="balance" id="balance" value="{{ old('balance') }}" data-mask="#,##0.00"
                     data-mask-reverse="true" />
-                @error('amount')
+                @error('balance')
                 <span class="invalid-feedback" role="alert">
                     {{ $message }}
                 </span>
                 @enderror
             </div>
-            <input type="submit" id="submitButton" value="..." class="btn btn-edit mt-2 cursor-none" />
+            <input type="submit" id="submitButton" value="..." class="btn btn-primary mt-2 cursor-none" />
         </form>
     </div>
 </div>
 @endsection
 
 @section('script')
+<script src="{{ asset('vendor/js/accounting.min.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 @endsection

@@ -4,11 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
-use App\Models\{
-    Budget,
-    Category,
-    PaymentMode
-};
+use App\Models\{Budget, Category, PaymentOption};
 
 class CacheRemember
 {
@@ -25,7 +21,7 @@ class CacheRemember
     {
         $this->cacheBudget();
         $this->cacheCategory();
-        $this->cacheMode(); // As Pyment Mode
+        $this->cacheOption(); // As Pyment Mode
     }
 
     /**
@@ -63,13 +59,13 @@ class CacheRemember
      *
      * @return array
      */
-    public function cacheMode()
+    public function cacheOption()
     {
-        if (Cache::has('mode')) {
-            Cache::forget('mode');
+        if (Cache::has('option')) {
+            Cache::forget('option');
         }
-        Cache::remember('mode', $this::__SECONDS, function () {
-            return PaymentMode::all();
+        Cache::remember('option', $this::__SECONDS, function () {
+            return PaymentOption::all();
         });
     }
 

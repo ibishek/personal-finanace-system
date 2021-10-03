@@ -11,17 +11,45 @@ class Category extends Model
 {
     use HasFactory;
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'categories';
 
-    protected $fillable = ['title', 'desc', 'entry'];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['title', 'desc', 'entry', 'is_deletable'];
 
     /**
-     * Convert first letter of Title into uppercase
+     * The model's default values for attributes.
      *
-     * @param string $value
-     * @return string $Value
+     * @var array
+     */
+    protected $attributes = ['is_deletable' => 1];
+
+    /**
+     * Get the category's title.
+     *
+     * @param  string  $value
+     * @return string
      */
     public function getTitleAttribute($value)
+    {
+        return ucfirst($value);
+    }
+
+    /**
+     * Get the category's description.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getDescAttribute($value)
     {
         return ucfirst($value);
     }

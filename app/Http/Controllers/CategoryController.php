@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Services\CacheRemember;
-use Illuminate\Support\Facades\Cache;
+use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -16,7 +16,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        // $categories = Category::all();
+        if (request()->ajax()) {
+            return Category::get(['title']);
+        }
         $categories = (new CacheRemember)->getCache('category');
 
         return view('category.index', compact('categories'));
@@ -38,14 +40,9 @@ class CategoryController extends Controller
      * @ param  \Illuminate\Http\Request  $request
      * @ return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $request->validate([
-            'title' => ['required', 'string'],
-            'desc' => ['string', 'nullable'],
-            'entry' => ['string', 'required', 'max:2']
-        ]);
-        Category::create($request->all());
+        Category::create($request->validated());
 
         (new CacheRemember())->cacheCategory();
         return redirect('api/categories/index')->with('success', 'Category is created successfully');
@@ -86,13 +83,8 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'title' => ['required', 'string'],
-            'desc' => ['string', 'nullable'],
-            'entry' => ['string', 'required', 'max:2']
-        ]);
         $category = Category::findOrFail($id);
-        $category->update($request->all());
+        $category->update($request->validated());
 
         (new CacheRemember())->cacheCategory();
         return redirect('api/categories/index')->with('success', 'Category is updated successfully');
@@ -108,9 +100,14 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
 
+        // prevent from deleteing necessary category with malicious intent
+        if ($category->is_deletable === 0) {
+            return redirect()->back()->with('error', 'Category can not be deleted');
+        }
+
         $category->delete();
 
-        (new CacheRemember())->cacheBudget();
+        (new CacheRemember())->cacheCategory();
         return redirect('api/categories/index')->with('success', 'Category is deleted successfully');
     }
 }

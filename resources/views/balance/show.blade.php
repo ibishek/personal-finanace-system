@@ -5,16 +5,21 @@
 <div class="card border-0 mt-2">
     <div class="card-body ml-4">
         <div class="row">
-            <strong>Payment Mode: </strong> {{ $balance->paymentMode->title }}
+            <strong>Payment Mode: </strong> {{ $balance->title }}
         </div>
         <div class="row">
-            <strong>Balance: </strong> {{ $balance->amount }}
+            <strong>Balance: </strong> <span class="format-amount" data-amount="{{ $balance->balance }}"></span>
         </div>
     </div>
     <div class="card-footer bg-white row ml-4">
         <a href="{{ url('api/balances/add-balance',$balance->id) }}"
-            class="btn btn-edit">{{ __('Deposit/Withdraw Amount') }}</a>
+            class="btn btn-primary">{{ __('Deposit/Withdraw Amount') }}
+        </a>
         <a href="{{ url()->previous() }}" class="btn btn-info ml-2">{{ __('Back with Reload') }}</a>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script src="{{ asset('vendor/js/accounting.min.js') }}"></script>
 @endsection

@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\AddBalance;
-use App\Models\Balance;
-use App\Models\PaymentMode;
+use App\Models\PaymentOption;
 
 class BalanceController extends Controller
 {
@@ -16,30 +15,9 @@ class BalanceController extends Controller
      */
     public function index()
     {
-        $balances = Balance::with('paymentMode')->get();
+        $balances = PaymentOption::select(['id', 'title', 'balance'])->get();
 
         return view('balance.index', compact('balances'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -50,7 +28,7 @@ class BalanceController extends Controller
      */
     public function show($id)
     {
-        $balance = Balance::with('paymentMode')->findOrFail($id);
+        $balance = PaymentOption::findOrFail($id);
 
         return view('balance.show', compact('balance'));
     }
@@ -63,7 +41,7 @@ class BalanceController extends Controller
      */
     public function edit($id)
     {
-        $balance = Balance::with('paymentMode')->findOrFail($id);
+        $balance = PaymentOption::findOrFail($id);
 
         return view('balance.add-balance', compact('balance'));
     }
@@ -78,28 +56,17 @@ class BalanceController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'amount' => 'required',
+            'balance' => 'required',
             'condition' => 'required'
         ]);
 
         $this->addBalance = new AddBalance();
-        $action = $this->addBalance->saveBalance($request->amount, $request->condition, $id);
+        $resolve = $this->addBalance->saveBalance($request->balance, $request->condition, $id);
 
-        if (!$action['status']) {
-            return redirect()->back()->with('error', $action['error']);
+        if (!$resolve['status']) {
+            return redirect()->back()->with('error', $resolve['error']);
         }
 
-        return redirect('api/balances/index')->with('success', 'Operaton completed successfully');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return redirect('api/balances/index')->with('success', $resolve['success']);
     }
 }

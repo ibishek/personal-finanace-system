@@ -7,8 +7,8 @@ use App\Http\Controllers\{
     BudgetController,
     CategoryController,
     CurrentBudgetController,
-    PaymentModeController,
-    ReminderController,
+    HomeController,
+    PaymentOptionController,
     TransactionController,
 };
 
@@ -23,15 +23,15 @@ use App\Http\Controllers\{
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('welcome', '/');
+
+Route::view('template', '/template');
 
 Auth::routes(['register' => false]);
 
 Route::middleware('auth')->group(function () {
     Route::prefix('/api')->group(function () {
-        Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+        Route::get('/home', [HomeController::class, 'index'])->name('home');
 
         //Ajax and Dashboard Controller
         Route::get('balances/current', [AjaxDashboardController::class, 'currentBalances']);
@@ -64,17 +64,15 @@ Route::middleware('auth')->group(function () {
         Route::put('categories/update/{id}', [CategoryController::class, 'update']);
         Route::delete('categories/delete/{id}', [CategoryController::class, 'destroy']);
 
-        //PaymentMode Controller
-        Route::get('payment-modes/index', [PaymentModeController::class, 'index']);
-        Route::get('payment-modes/show/{id}', [PaymentModeController::class, 'show']);
-        Route::get('payment-modes/create', [PaymentModeController::class, 'create']);
-        Route::post('payment-modes/store', [PaymentModeController::class, 'store']);
-        Route::get('payment-modes/edit/{id}', [PaymentModeController::class, 'edit']);
-        Route::put('payment-modes/update/{id}', [PaymentModeController::class, 'update']);
-        Route::get('payment-modes/amount/{id}', [PaymentModeController::class, 'amount']);
-        Route::delete('payment-modes/delete/{id}', [PaymentModeController::class, 'destroy']);
-
-        //Reminder Controller
+        //PaymentOption Controller
+        Route::get('payment-options/index', [PaymentOptionController::class, 'index']);
+        Route::get('payment-options/show/{id}', [PaymentOptionController::class, 'show']);
+        Route::get('payment-options/create', [PaymentOptionController::class, 'create']);
+        Route::post('payment-options/store', [PaymentOptionController::class, 'store']);
+        Route::get('payment-options/edit/{id}', [PaymentOptionController::class, 'edit']);
+        Route::put('payment-options/update/{id}', [PaymentOptionController::class, 'update']);
+        Route::get('payment-options/amount/{id}', [PaymentOptionController::class, 'amount']);
+        Route::delete('payment-options/delete/{id}', [PaymentOptionController::class, 'destroy']);
 
         //Transaction Controller
         Route::get('transactions/index', [TransactionController::class, 'index']);

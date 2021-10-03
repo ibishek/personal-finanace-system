@@ -41,7 +41,7 @@
                 </span>
                 @enderror
             </div>
-            <input type="submit" class="btn btn-edit mt-2" value="Update" />
+            <input type="submit" class="btn btn-primary mt-2" value="Update" />
         </form>
     </div>
 </div>

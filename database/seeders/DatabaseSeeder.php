@@ -19,8 +19,7 @@ class DatabaseSeeder extends Seeder
             DB::beginTransaction();
             $this->call(UserSeeder::class);
             $this->call(CategorySeeder::class);
-            $this->call(PaymentModeSeeder::class);
-            $this->call(BalanceSeeder::class);
+            $this->call(PaymentOptionSeeder::class);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();

@@ -15,10 +15,10 @@ class CategorySeeder extends Seeder
     public function run()
     {
         $categories = array(
-            array('title' => 'Income', 'entry' => 'dr'),
-            array('title' => 'Expense', 'entry' => 'cr'),
-            array('title' => 'Profit', 'entry' => 'dr'),
-            array('title' => 'Loss', 'entry' => 'cr')
+            array('title' => 'Income', 'entry' => 'dr', 'is_deletable' => 0),
+            array('title' => 'Expense', 'entry' => 'cr', 'is_deletable' => 0),
+            array('title' => 'Profit', 'entry' => 'dr', 'is_deletable' => 1),
+            array('title' => 'Loss', 'entry' => 'cr', 'is_deletable' => 1)
         );
 
         Category::insert($categories);

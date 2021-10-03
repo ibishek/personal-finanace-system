@@ -3,7 +3,7 @@
 @section('content')
 <x-header title="All Budgets" showCreate="true" link="api/budgets/create" />
 @include('layouts.session')
-<table class="table table-striped table-hover mt-2 ml-2">
+<table class="table table-index table-striped table-hover bg-white m-2">
     <thead>
         <tr>
             <th>S.N.</th>

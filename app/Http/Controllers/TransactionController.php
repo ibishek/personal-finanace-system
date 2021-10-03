@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Budget, Transaction, Category, PaymentMode};
+use App\Models\{Budget, Transaction, Category, PaymentOption};
 use App\Http\Requests\TransactionCreateRequest;
 use App\Services\{CacheRemember, TransactionService};
 
@@ -19,7 +19,7 @@ class TransactionController extends Controller
         $transactions = Transaction::orderBy('created_at', 'DESC')
             ->with(['budget', 'category', 'paymentMode'])
             ->paginate(20);
-        $modes = (new CacheRemember)->getCache('mode');
+        $modes = (new CacheRemember)->getCache('option');
         return view('transaction.index', compact('transactions', 'modes'));
     }
 
@@ -33,7 +33,7 @@ class TransactionController extends Controller
         $budget = Budget::select('id')->where('is_active', 1)->first();
         if ($budget) {
             $categories = Category::select(['id', 'title'])->get();
-            $modes = PaymentMode::select(['id', 'title'])->get();
+            $modes = PaymentOption::select(['id', 'title'])->get();
 
             return view('transaction.create', compact('categories', 'modes'));
         }

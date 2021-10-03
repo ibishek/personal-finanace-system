@@ -1,0 +1,37 @@
+.card.no-bg {
+    background-color: transparent;
+}
+
+.card.dashboard {
+    .card-body {
+        i {
+            position: absolute;
+            z-index: 0;
+            top: 15px;
+            right: 5%;
+            font-size: 4rem;
+            &:hover {
+                animation-name: icon-hover;
+                animation-duration: 1s;
+                animation-fill-mode: forwards;
+                animation-timing-function: ease-in;
+            }
+        }
+    }
+}
+
+@keyframes icon-hover {
+    from {
+        font-size: 4rem;
+    }
+    to {
+        font-size: 4.3rem;
+    }
+}
+
+.card-border-bottom {
+    border-left: 0;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 5px solid $color-3;
+}
