@@ -1,16 +1,6 @@
 ## About Personal Finanace Management System
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
--   [Simple, fast routing engine](https://laravel.com/docs/routing).
--   [Powerful dependency injection container](https://laravel.com/docs/container).
--   Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
--   Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
--   Database agnostic [schema migrations](https://laravel.com/docs/migrations).
--   [Robust background job processing](https://laravel.com/docs/queues).
--   [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Personal finance is a single-user financial records keeping system. It encourages you to maintain your overspending habits. At first, you have to create an estimated spending amount called a budget for a definite term. After that, it assists you to keep track of how much you have earned and spent within that budget. You can get detailed reports via GUI charts powered by Chart js.
 
 ## Required Applications
 
@@ -25,7 +15,8 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 -   `$ git clone https://github.com/ibishek/personal-finanace-system.git`
 -   `$ cd project-folder`
 -   `$ composer install`
-<!-- -   `$ npm install` -->
+-   `$ npm install`
+-   `$ npm run dev`
 -   `$ php artisan migrate`
 -   `$ php artisan db:seed`
 -   `$ php artisan serve`
