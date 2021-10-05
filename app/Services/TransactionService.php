@@ -2,11 +2,9 @@
 //phpcs:ignoreFile
 namespace App\Services;
 
-use App\Models\{Balance, Budget, Category, PaymentMode, Transaction};
+use App\Models\{Budget, Category, PaymentOption, Transaction};
 use App\Services\UnmaskAmount;
 use DB;
-use Exception;
-use PhpParser\Node\Stmt\TryCatch;
 
 class TransactionService
 {
@@ -19,14 +17,16 @@ class TransactionService
     public function onSave($request)
     {
         $request['amount'] = UnmaskAmount::unmask($request['amount']);
+
         $balanceAmount = $this->__getBalance($request['mode']);
-        $budgetId = Budget::getCurrentBudgetId();
+        $budgetId = Budget::where('is_active', 1)->first('id');
+        $budgetId = $budgetId->id;
 
         $transaction = [
             'title' => $request['title'],
             'desc' => $request['desc'],
             'budget_id' => $budgetId,
-            'mode_id' => $request['mode'],
+            'option_id' => $request['mode'],
             'category_id' => $request['category'],
             'amount' => $request['amount']
         ];
@@ -35,76 +35,56 @@ class TransactionService
         if ($entry == 'dr') {
             try {
                 DB::beginTransaction();
-                Transaction::insert($transaction);
-                $this->__addToBalance($request['amount'], $transaction['mode_id']);
+                Transaction::create($transaction);
+                $this->__addToPaymentOption($transaction['option_id'], $request['amount']);
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
-                $reject = [
+                return [
                     'status' => false,
                     'error' => 'Error on' . $e,
                 ];
-                return $reject;
             }
         }
 
         if ($entry == 'cr') {
-            // dd($request, $balanceAmount, $remainingBudgetBalance);
             if ($balanceAmount < $request['amount']) {
-                $reject = [
+                return [
                     "status" => false,
                     "error" => "Balance amount is less than requested amount"
                 ];
-                return $reject;
             }
 
-            $remainingBudgetBalance = $this->__getRemainingBudgetBalance();
+            $remainingBudgetBalance = $this->__getRemainingBudgetBalance($budgetId);
 
             if ($remainingBudgetBalance < $request['amount']) {
-                $reject = [
+                return [
                     "status" => false,
                     "error" => "Budget balance is less than requested amount"
                 ];
-                return $reject;
             }
 
             try {
                 DB::beginTransaction();
 
-                // $trans['title'] = $request['title'];
-                // $trans['desc'] = $request['desc'];
-                // $trans['budget_id'] = $budgetId;
-                // $trans['mode_id'] = $request['mode'];
-                // $trans['category_id'] = $request['category'];
-                // $trans['amount'] = $request['amount'];
-
-                // dd($trans);
-                Transaction::insert($transaction);
-                // dd($trans);
-
-                // $entry = Category::getEntry($request['category']);
-                $this->__deductFromBudget($request['amount'], $budgetId);
-                $this->__deductFromBalance(
-                    $request['amount'],
-                    $transaction['mode_id']
-                );
+                Transaction::create($transaction);
+                $this->__deductFromBudget($budgetId, $request['amount']);
+                $this->__deductFromPaymentOption($transaction['option_id'], $request['amount']);
 
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
-                $reject = [
+                return [
                     'status' => false,
-                    'error' => 'Error found' . $e,
+                    'error' => "Error found $e",
                 ];
-                return $reject;
             }
         }
 
-        $resolve = [
+        return [
             'status' => true,
-            'success' => 'Transaction successfully created'
+            'success' => 'Transaction created successfully'
         ];
-        return $resolve;
     }
 
     /**
@@ -115,8 +95,8 @@ class TransactionService
      */
     private function __getBalance($id)
     {
-        $balance =  Balance::select('amount')->where('mode_id', $id)->first();
-        return $balance->amount;
+        $getBalance =  PaymentOption::where('id', $id)->first('balance');
+        return $getBalance->balance;
     }
 
     /**
@@ -124,12 +104,24 @@ class TransactionService
      *
      * @return float
      */
-    private function __getRemainingBudgetBalance()
+    private function __getRemainingBudgetBalance($id)
     {
-        $id = Budget::getCurrentBudgetId();
-        $budgetBalance =  Budget::select('balance_amount')
-            ->where('id', $id)->first();
+        $budgetBalance =  Budget::where('id', $id)
+            ->latest()
+            ->first('balance_amount');
         return $budgetBalance->balance_amount;
+    }
+
+    /**
+     * Add balance to payment option
+     *
+     * @param int $id
+     * @param float $amount
+     * @return void
+     */
+    private function __addToPaymentOption($id, $amount)
+    {
+        PaymentOption::where('id', $id)->increment('balance', $amount);
     }
 
     /**
@@ -139,32 +131,20 @@ class TransactionService
      * @param float $amount
      * @return void
      */
-    private function __deductFromBudget($amount, $id)
+    private function __deductFromBudget($id, $amount)
     {
         Budget::where('id', $id)->decrement('balance_amount', $amount);
     }
 
     /**
-     * Deduct from balance
+     * Deduct balance from payment option
      *
-     * @param float $amount
      * @param int $id
+     * @param float $amount
      * @return void
      */
-    private function __deductFromBalance($amount, $id)
+    private function __deductFromPaymentOption($id, $amount)
     {
-        Balance::where('mode_id', $id)->decrement('amount', $amount);
-    }
-
-    /**
-     * Add to balance
-     *
-     * @param float $amount
-     * @param int $id
-     * @return void
-     */
-    private function __addToBalance($amount, $id)
-    {
-        Balance::where('mode_id', $id)->increment('amount', $amount);
+        PaymentOption::where('id', $id)->decrement('balance', $amount);
     }
 }

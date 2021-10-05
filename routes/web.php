@@ -23,7 +23,9 @@ use App\Http\Controllers\{
 |
 */
 
-Route::view('welcome', '/');
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::view('template', '/template');
 
@@ -38,7 +40,7 @@ Route::middleware('auth')->group(function () {
         Route::get('budgets/current/name', [AjaxDashboardController::class, 'getCurrentBudget']); // not found throw message
         Route::get('budgets/current/amount', [AjaxDashboardController::class, 'currentBudgetAmount']); // not found switch to latest
         Route::get('budgets/previous', [AjaxDashboardController::class, 'previousBudgets']);
-        Route::get('dashboard/general-info', [AjaxDashboardController::class, 'firstRow']);
+        Route::get('dashboard/general-info', [AjaxDashboardController::class, 'generalInfo']);
         Route::get('transactions/ten-income', [AjaxDashboardController::class, 'tenIncomes']);
         Route::get('transactions/ten-expense', [AjaxDashboardController::class, 'tenExpense']);
 
@@ -66,12 +68,13 @@ Route::middleware('auth')->group(function () {
 
         //PaymentOption Controller
         Route::get('payment-options/index', [PaymentOptionController::class, 'index']);
+        //there is a simple custom class for ajax request
+        Route::get('payment-options/amount/{id}', [PaymentOptionController::class, 'amount']);
         Route::get('payment-options/show/{id}', [PaymentOptionController::class, 'show']);
         Route::get('payment-options/create', [PaymentOptionController::class, 'create']);
         Route::post('payment-options/store', [PaymentOptionController::class, 'store']);
         Route::get('payment-options/edit/{id}', [PaymentOptionController::class, 'edit']);
         Route::put('payment-options/update/{id}', [PaymentOptionController::class, 'update']);
-        Route::get('payment-options/amount/{id}', [PaymentOptionController::class, 'amount']);
         Route::delete('payment-options/delete/{id}', [PaymentOptionController::class, 'destroy']);
 
         //Transaction Controller

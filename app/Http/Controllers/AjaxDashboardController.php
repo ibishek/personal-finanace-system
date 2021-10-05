@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 // use Illuminate\Http\Request;
 use DB;
-use App\Models\{Balance, Budget, Category, PaymentMode, Transaction};
+use App\Models\{Balance, Budget, Category, PaymentOption, Transaction};
 
 class AjaxDashboardController extends Controller
 {
@@ -32,7 +32,7 @@ class AjaxDashboardController extends Controller
 
         return response()->json([
             0 => [
-                'title' => 'No active budget found. Please, a create new one.'
+                'title' => 'No active budget found. Please, create a new one.'
             ]
         ], 200);
     }
@@ -43,7 +43,7 @@ class AjaxDashboardController extends Controller
      *
      * @return json
      */
-    public function firstRow()
+    public function generalInfo()
     {
         $this->__currentBudgetId = Budget::getCurrentBudgetId();
         $incomeIds = Category::getAllIdHavingDebitEntry();
@@ -52,18 +52,18 @@ class AjaxDashboardController extends Controller
         $totalIncome = Transaction::where('budget_id', $this->__currentBudgetId)
             ->whereIn('category_id', $incomeIds)
             ->sum('amount');
+
         $totalExpense = Transaction::where('budget_id', $this->__currentBudgetId)
             ->whereIn('category_id', $expenseIds)
             ->sum('amount');
-        $totalBalance = Balance::sum('amount');
-        $cashOnHand = PaymentMode::select('id')
-            ->first();
-        $cashOnHandAmount = Balance::select('amount')
-            ->where('mode_id', $cashOnHand->id)
-            ->first();
-        $resolve = [$totalIncome, $totalExpense, $totalBalance, $cashOnHandAmount->amount];
 
-        return response()->json($resolve, 200);
+        $totalBalance = PaymentOption::sum('balance');
+
+        $cashOnHandAmount = PaymentOption::first('balance');
+
+        return response()->json([
+            $totalIncome, $totalExpense, $totalBalance, $cashOnHandAmount
+        ], 200);
     }
 
     /**
@@ -73,10 +73,7 @@ class AjaxDashboardController extends Controller
      */
     public function currentBalances()
     {
-        $balances = DB::table('payment_modes')
-            ->join('balances', 'payment_modes.id', '=', 'balances.mode_id')
-            ->select(['payment_modes.title', 'balances.amount'])
-            ->get();
+        $balances = PaymentOption::get(['title', 'balance']);
 
         return response()->json($balances, 200);
     }
@@ -90,9 +87,8 @@ class AjaxDashboardController extends Controller
     public function currentBudgetAmount()
     {
         $budgetId = Budget::getCurrentBudgetId();
-        $amount = Budget::select('alloted_amount')
-            ->where('id', $budgetId)
-            ->get();
+        $amount = Budget::where('id', $budgetId)
+            ->get('alloted_amount');
 
         return response()->json($amount, 200);
     }
@@ -141,6 +137,9 @@ class AjaxDashboardController extends Controller
     {
         $this->__currentBudgetId = Budget::getCurrentBudgetId();
         $expenseIds = Category::getAllIdHavingCreditEntry();
+        // if (!$this->__currentBudgetId) {
+
+        // }
 
         $expenseTransaction = Transaction::select(['title', 'amount'])
             ->where('budget_id', $this->__currentBudgetId)

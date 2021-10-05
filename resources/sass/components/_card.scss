@@ -9,10 +9,10 @@
             z-index: 0;
             top: 15px;
             right: 5%;
-            font-size: 4rem;
+            font-size: 3rem;
             &:hover {
                 animation-name: icon-hover;
-                animation-duration: 1s;
+                animation-duration: 0.4s;
                 animation-fill-mode: forwards;
                 animation-timing-function: ease-in;
             }
@@ -22,10 +22,10 @@
 
 @keyframes icon-hover {
     from {
-        font-size: 4rem;
+        font-size: 3rem;
     }
     to {
-        font-size: 4.3rem;
+        font-size: 3.5rem;
     }
 }
 

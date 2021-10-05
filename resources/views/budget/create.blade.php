@@ -6,7 +6,7 @@
 
 @section('content')
 <x-header title="Create a new Budget" showCreate="false" link="" />
-<div class="card-border-0 mt-2">
+<div class="card bg-white border-0 mt-2">
     <div class="card-body">
         <form action="{{ url('api/budgets/store') }}" class="form" method="POST">
             @csrf

@@ -6,8 +6,8 @@
     <div class="col-md-6">
         <canvas id="budget"></canvas>
     </div>
-    <div class="col-md-6">
-        <h4><strong id="budget-title">{{ $budget->title }}</strong></h4>
+    <div class="col-md-6 bg-white">
+        <h4 class="mt-2"><strong id="budget-title">{{ $budget->title }}</strong></h4>
         <hr />
         <div>
             <strong>Alloted Amount:</strong> <span class="format-amount"

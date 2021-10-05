@@ -41,7 +41,7 @@
                     </span>
                     @enderror
                 </div>
-                <div class="col-lg-6 c-mt-2">
+                <div class="col-lg-6 lg-mt-2">
                     <select name="category" id="category"
                         class="form-control rounded-0 @error('category') is-invalid @enderror">
                         <option selected disabled>Transaction category</option>
@@ -74,7 +74,7 @@
                 </span>
                 @enderror
             </div>
-            <input type="submit" class="mt-2 btn btn-edit" value="Start" />
+            <input type="submit" class="mt-2 btn btn-primary" value="Start" />
         </form>
     </div>
 </div>
@@ -90,11 +90,11 @@
             let payViaId = $('#mode option:selected').attr('value');
             const url = document.location.origin;
             $.ajax({
-                url: `${url}/api/payment-modes/amount/${payViaId}`,
+                url: `${url}/api/payment-options/amount/${payViaId}`,
                 type: 'get',
                 dataType: 'json',
                 success: function(data) {
-                    $('#payViaAmount').text(data.amount);
+                    $('#payViaAmount').text(data[0].balance);
                 }
             });
         });

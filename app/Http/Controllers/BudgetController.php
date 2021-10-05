@@ -16,7 +16,7 @@ class BudgetController extends Controller
      */
     public function index()
     {
-        $budgets = Budget::orderBy('created_at', 'DESC')->paginate(20);
+        $budgets = Budget::latest()->paginate(20);
 
         return view('budget.index', compact('budgets'));
     }
@@ -30,7 +30,7 @@ class BudgetController extends Controller
     {
         $budget = Budget::where('is_active', 1)->count();
         if ($budget === 1) {
-            return redirect('api/budgets/current')->with('error', 'There is a current active budget. So, you can not create another budget.');
+            return redirect('api/budgets/current')->with('error', 'There is an active budget found. So, you can not create another budget.');
         }
 
         return view('budget.create');
@@ -95,17 +95,6 @@ class BudgetController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
     {
         //
     }

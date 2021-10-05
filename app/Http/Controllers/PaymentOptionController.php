@@ -28,6 +28,20 @@ class PaymentOptionController extends Controller
     }
 
     /**
+     * Display the balance amount of request id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function amount($id)
+    {
+        abort_unless(request()->ajax(), 403);
+        $amount =  PaymentOption::where('id', $id)
+            ->get('balance');
+
+        return response()->json($amount, 200);
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

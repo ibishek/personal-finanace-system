@@ -7,6 +7,8 @@ use App\Models\{
     Transaction,
 };
 
+// --------------------------- Deprecated ------------------------------//
+
 class PaymentModeDelete
 {
     /**

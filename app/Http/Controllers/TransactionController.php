@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\{Budget, Transaction, Category, PaymentOption};
 use App\Http\Requests\TransactionCreateRequest;
-use App\Services\{CacheRemember, TransactionService};
+use App\Services\{
+    CacheRemember,
+    CalculatePercentageForExpenseTransaction,
+    TransactionService
+};
 
 class TransactionController extends Controller
 {
@@ -17,7 +21,7 @@ class TransactionController extends Controller
     public function index()
     {
         $transactions = Transaction::orderBy('created_at', 'DESC')
-            ->with(['budget', 'category', 'paymentMode'])
+            ->with(['budget', 'category', 'paymentOption'])
             ->paginate(20);
         $modes = (new CacheRemember)->getCache('option');
         return view('transaction.index', compact('transactions', 'modes'));
@@ -50,13 +54,13 @@ class TransactionController extends Controller
     public function store(TransactionCreateRequest $request)
     {
         $validated = $request->validated();
-        $action = (new TransactionService())->onSave($validated);
-        // dd($action);
-        if (!$action['status']) {
-            return back()->with('error', $action['error'])->withInput();
+        $resolve = (new TransactionService())->onSave($validated);
+        // dd($resolve);
+        if (!$resolve['status']) {
+            return back()->with('error', $resolve['error'])->withInput();
         }
 
-        return redirect('api/transactions/index')->with('success', $action['success']);
+        return redirect('api/transactions/index')->with('success', $resolve['success']);
     }
 
     /**
@@ -67,9 +71,16 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        $transaction = Transaction::with(['budget', 'category', 'paymentMode'])->findOrFail($id);
+        $transaction = Transaction::with(['budget', 'category', 'paymentOption'])->findOrFail($id);
 
-        return view('transaction.show', compact('transaction'));
+        $percent = (new CalculatePercentageForExpenseTransaction())
+            ->percentage(
+                $transaction->category_id,
+                $transaction->amount,
+                $transaction->budget_id
+            );
+
+        return view('transaction.show', compact('transaction', 'percent'));
     }
 
     /**

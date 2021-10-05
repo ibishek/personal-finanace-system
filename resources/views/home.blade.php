@@ -130,11 +130,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td colspan="3" class="text-center">
-                                <i class="fa fa-spinner fa-spin"></i>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -156,11 +151,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td colspan="3" class="text-center">
-                                <i class="fa fa-spinner fa-spin"></i>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -172,5 +162,5 @@
 @section('script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
 <script src="{{ asset('js/accounting.min.js') }}"></script>
-{{-- <script src="{{ asset('js/dashboard.js') }}"></script> --}}
+<script src="{{ asset('js/dashboard.js') }}"></script>
 @endsection

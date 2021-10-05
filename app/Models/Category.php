@@ -72,8 +72,8 @@ class Category extends Model
      */
     public static function getEntry($id)
     {
-        $entry = Category::select('entry')->where('id', $id)->first();
-        return $entry->entry;
+        $getEntry = Category::where('id', $id)->first('entry');
+        return $getEntry->entry;
     }
 
     /**

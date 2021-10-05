@@ -21,7 +21,7 @@ class CacheRemember
     {
         $this->cacheBudget();
         $this->cacheCategory();
-        $this->cacheOption(); // As Pyment Mode
+        $this->cacheOption();
     }
 
     /**

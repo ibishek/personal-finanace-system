@@ -22,12 +22,12 @@ $(function () {
         type: "get",
         dataType: "json",
         success: (data) => {
-            currentBudgetIncome = data[0];
+            currentBudgetIncome = data[0]; //assiagn to variable for later use ****
             $("#total-income").text(data[0]);
-            currentBudgetExpense = data[1];
+            currentBudgetExpense = data[1]; // ****
             $("#total-expense").text(data[1]);
             $("#total-balance").text(data[2]);
-            $("#cash-on-hand").text(data[3]);
+            $("#cash-on-hand").text(data[3].balance);
         },
     });
 
@@ -80,7 +80,7 @@ $(function () {
         success: (data) => {
             data.map((item) => {
                 labels.push(item.title);
-                amounts.push(item.amount);
+                amounts.push(item.balance);
                 colors.push(
                     "#" +
                         ((Math.random() * 0xffffff) << 0)
@@ -100,32 +100,37 @@ $(function () {
         type: "get",
         dataType: "json",
         success: (data) => {
-            let expRemainingAmount;
-            if (data[0].alloted_amount > currentBudgetIncome) {
-                incData.datasets[0].data = data[0].alloted_amount;
-                incomeData.push(data[0].alloted_amount);
-                incomeData.push(currentBudgetIncome);
-                incomeLabels = ["Budget Amount", "Total Income Amount"];
-                incomeColors = ["#5969ff", "#43a047"];
-                incData.labels = incomeLabels;
-                incData.datasets[1].backgroundColor = incomeColors;
-                incChart.update();
-            } else {
-                incData.datasets[0].data = currentBudgetIncome;
-                incomeData.push(currentBudgetIncome);
-                incomeData.push(data[0].alloted_amount);
-                incomeLabels = ["Total Income Amount", "Budget Amount"];
-                incomeColors = ["#43a047", "#5969ff"];
-                incData.labels = incomeLabels;
-                incData.datasets[1].backgroundColor = incomeColors;
-                incChart.update();
+            if (Object.keys(data).length > 0) {
+                let expRemainingAmount;
+                // condition is based on if the budget amount is greater or the income amount
+                // than change the chart accordingly
+                if (data[0].alloted_amount > currentBudgetIncome) {
+                    incData.datasets[0].data = data[0].alloted_amount;
+                    incomeData.push(data[0].alloted_amount);
+                    incomeData.push(currentBudgetIncome);
+                    incomeLabels = ["Budget Amount", "Total Income Amount"];
+                    incomeColors = ["#5969ff", "#43a047"];
+                    incData.labels = incomeLabels;
+                    incData.datasets[1].backgroundColor = incomeColors;
+                    incChart.update();
+                } else {
+                    incData.datasets[0].data = currentBudgetIncome;
+                    incomeData.push(currentBudgetIncome);
+                    incomeData.push(data[0].alloted_amount);
+                    incomeLabels = ["Total Income Amount", "Budget Amount"];
+                    incomeColors = ["#43a047", "#5969ff"];
+                    incData.labels = incomeLabels;
+                    incData.datasets[1].backgroundColor = incomeColors;
+                    incChart.update();
+                }
+                expRemainingAmount =
+                    data[0].alloted_amount - currentBudgetExpense;
+                expData.datasets[0].data = data[0].alloted_amount;
+                second.push(expRemainingAmount);
+                second.push(currentBudgetExpense);
+                expData.datasets[1].data = second;
+                expChart.update();
             }
-            expRemainingAmount = data[0].alloted_amount - currentBudgetExpense;
-            expData.datasets[0].data = data[0].alloted_amount;
-            second.push(expRemainingAmount);
-            second.push(currentBudgetExpense);
-            expData.datasets[1].data = second;
-            expChart.update();
         },
     });
 
@@ -264,15 +269,17 @@ $(function () {
         type: "get",
         dataType: "json",
         success: (data) => {
-            data.map((item) => {
-                preLabels.push(item.title);
-                allotd.push(item.alloted_amount);
-                balance.push(item.balance_amount);
-            });
-            previousBudgetData.labels = preLabels;
-            previousBudgetData.datasets[0].data = allotd;
-            previousBudgetData.datasets[1].data = balance;
-            previousBudgetBarChart.update();
+            if (Object.keys(data).length > 0) {
+                data.map((item) => {
+                    preLabels.push(item.title);
+                    allotd.push(item.alloted_amount);
+                    balance.push(item.balance_amount);
+                });
+                previousBudgetData.labels = preLabels;
+                previousBudgetData.datasets[0].data = allotd;
+                previousBudgetData.datasets[1].data = balance;
+                previousBudgetBarChart.update();
+            }
         },
     });
 
@@ -282,19 +289,32 @@ $(function () {
         type: "get",
         dataType: "json",
         success: (data) => {
-            data.map((item, index) => {
-                let tableRow = document.createElement("tr");
-                let sn = document.createElement("td");
-                sn.appendChild(document.createTextNode(`${index + 1}`));
-                tableRow.appendChild(sn);
-                let title = document.createElement("td");
-                title.appendChild(document.createTextNode(`${item.title}`));
-                tableRow.appendChild(title);
-                let amount = document.createElement("td");
-                amount.appendChild(document.createTextNode(`${item.amount}`));
-                tableRow.appendChild(amount);
-                $("table#income>tbody").append(tableRow);
-            });
+            if (Object.keys(data).length == 0) {
+                const incomeRow = $("table#income>tbody");
+                appendNoRecordFound(incomeRow);
+            } else {
+                const incomeRow = $("table#income>tbody");
+                appendReords(data, incomeRow);
+                // data.map((item, index) => {
+                //     let tableRow = document.createElement("tr");
+
+                //     let sn = document.createElement("td");
+                //     sn.appendChild(document.createTextNode(`${index + 1}`));
+                //     tableRow.appendChild(sn);
+
+                //     let title = document.createElement("td");
+                //     title.appendChild(document.createTextNode(`${item.title}`));
+                //     tableRow.appendChild(title);
+
+                //     let amount = document.createElement("td");
+                //     amount.appendChild(
+                //         document.createTextNode(`${item.amount}`)
+                //     );
+
+                //     tableRow.appendChild(amount);
+                //     $("table#income>tbody").append(tableRow);
+                // });
+            }
         },
     });
 
@@ -304,19 +324,68 @@ $(function () {
         type: "get",
         dataType: "json",
         success: (data) => {
-            data.map((item, index) => {
-                let tableRow = document.createElement("tr");
-                let sn = document.createElement("td");
-                sn.appendChild(document.createTextNode(`${index + 1}`));
-                tableRow.appendChild(sn);
-                let title = document.createElement("td");
-                title.appendChild(document.createTextNode(`${item.title}`));
-                tableRow.appendChild(title);
-                let amount = document.createElement("td");
-                amount.appendChild(document.createTextNode(`${item.amount}`));
-                tableRow.appendChild(amount);
-                $("table#expense>tbody").append(tableRow);
-            });
+            if (Object.keys(data).length == 0) {
+                const expenseRow = $("table#expense>tbody");
+                appendNoRecordFound(expenseRow);
+            } else {
+                const expenseRow = $("table#expense>tbody");
+                appendReords(data, expenseRow);
+                // data.map((item, index) => {
+                //     let tableRow = document.createElement("tr");
+
+                //     let sn = document.createElement("td");
+                //     sn.appendChild(document.createTextNode(`${index + 1}`));
+                //     tableRow.appendChild(sn);
+
+                //     let title = document.createElement("td");
+                //     title.appendChild(document.createTextNode(`${item.title}`));
+                //     tableRow.appendChild(title);
+
+                //     let amount = document.createElement("td");
+                //     amount.appendChild(
+                //         document.createTextNode(`${item.amount}`)
+                //     );
+                //     tableRow.appendChild(amount);
+                //     $("table#expense>tbody").append(tableRow);
+                // });
+            }
         },
     });
+
+    function appendNoRecordFound(row) {
+        let tableRow = document.createElement("tr");
+
+        let tableData = document.createElement("td");
+        tableData.appendChild(document.createTextNode("No record found"));
+
+        let colSpan = document.createAttribute("colspan");
+        colSpan.value = 3;
+        tableData.setAttributeNode(colSpan);
+
+        let cls = document.createAttribute("class");
+        cls.value = "text-center";
+        tableData.setAttributeNode(cls);
+
+        tableRow.appendChild(tableData);
+        $(row).append(tableRow);
+    }
+
+    function appendReords(data, row) {
+        data.map((item, index) => {
+            let tableRow = document.createElement("tr");
+
+            let sn = document.createElement("td");
+            sn.appendChild(document.createTextNode(`${index + 1}`));
+            tableRow.appendChild(sn);
+
+            let title = document.createElement("td");
+            title.appendChild(document.createTextNode(`${item.title}`));
+            tableRow.appendChild(title);
+
+            let amount = document.createElement("td");
+            amount.appendChild(document.createTextNode(`${item.amount}`));
+            tableRow.appendChild(amount);
+            row.append(tableRow);
+        });
+    }
 });
