@@ -9,6 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'PFMS') }}</title>
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
 
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -49,7 +50,7 @@
             <i class="fa fa-bars mr-2"></i>
             <small class="text-uppercase font-weight-bold">Menu</small>
         </button>
-        <small class="float-right">{{ Config('app.name', 'PFMS') }}</small>
+        {{-- <small class="float-right">{{ Config('app.name', 'PFMS') }}</small> --}}
         @yield('content')
     </main>
     {{-- End main page content --}}

@@ -91,4 +91,18 @@ class Budget extends Model
         }
         return $budgetId;
     }
+
+    /**
+     * Get currently active budget id
+     *
+     * @return int id
+     */
+    public static function getExactCurrentBudgetId()
+    {
+        $budgetId = Budget::where('is_active', 1)->first('id');
+        if (!$budgetId) {
+            $budgetId = Budget::latest()->first('id');
+        }
+        return $budgetId->id;
+    }
 }

@@ -40,49 +40,60 @@
             <canvas id="line-chart"></canvas>
         </div>
         <div class="row mt-4">
-            <div class="col-sm-4">
-                <div class="card rounded-0 text-white bg-primary mb-3">
-                    <div class="card-header">Total Transactions</div>
+            <div class="col-md-4">
+                <div class="card card-border-bottom custom-rounded mb-3">
                     <div class="card-body flex-column">
                         <div class="row">
                             <div class="col">
                                 <h5 class="card-title">{{ $totalTransactions }}</h5>
                             </div>
-                            <div class="col-auto ps-0">
-                                <img src="{{ asset('icons/transaction.svg') }}" alt="transaction" />
-                            </div>
                         </div>
+                        <div><i class="fa fa-list text-size text-1"></i></div>
+                        @if ($totalTransactions === 1)
+                        Transaction
+                        @elseif ($totalTransactions === 0)
+                        No transaction
+                        @else
+                        Total Transactions
+                        @endif
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4">
-                <div class="card rounded-0 text-white bg-success mb-3">
-                    <div class="card-header">Profitable Transactions</div>
+            <div class="col-md-4">
+                <div class="card card-border-bottom custom-rounded mb-3">
                     <div class="card-body flex-column">
                         <div class="row">
                             <div class="col">
                                 <h5 class="card-title">{{ $noOfIncomeTransactions }}</h5>
                             </div>
-                            <div class="col-auto ps-0">
-                                <img src="{{ asset('icons/credit-card.svg') }}" alt="proftable transaction" />
-                            </div>
                         </div>
+                        <div><i class="fa fa-cart-arrow-down text-size text-success"></i></div>
+                        @if ($totalTransactions === 1)
+                        Profitable Transaction
+                        @elseif ($totalTransactions === 0)
+                        No transaction
+                        @else
+                        Profitable Transactions
+                        @endif
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4">
-                <div class="card rounded-0 text-white bg-danger mb-3">
-                    <div class="card-header">Unprofitable Transactions</div>
+            <div class="col-md-4">
+                <div class="card card-border-bottom custom-rounded mb-3">
                     <div class="card-body flex-column">
                         <div class="row">
                             <div class="col">
-                                <h5 class="card-title">{{ $totalTransactions - $noOfIncomeTransactions }}</h5>
-                            </div>
-                            <div class="col-auto ps-0">
-                                <img src="{{ asset('icons/credit-card.svg') }}" alt="unprofitable transaction"
-                                    style="fill: red" />
+                                <h4 class="card-title">{{ $totalTransactions - $noOfIncomeTransactions }}</h4>
                             </div>
                         </div>
+                        <div><i class="fa fa-cart-plus text-size text-danger"></i></div>
+                        @if ($totalTransactions === 1)
+                        Unprofitable Transaction
+                        @elseif ($totalTransactions === 0)
+                        No transaction
+                        @else
+                        Unprofitable Transactions
+                        @endif
                     </div>
                 </div>
 

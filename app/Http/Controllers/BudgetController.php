@@ -84,7 +84,7 @@ class BudgetController extends Controller
      */
     public function edit($id)
     {
-        //
+        // end budget term is coming soon
     }
 
     /**
@@ -96,6 +96,6 @@ class BudgetController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // end budget term is coming soon
     }
 }

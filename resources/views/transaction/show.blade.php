@@ -21,11 +21,11 @@
         </div>
         <div class="@unless (empty($transaction->desc)) row @else @endunless">
             @unless (empty($transaction->desc))
-            <div class="col-6 text-right">
+            <div class="col-sm-6 text-right">
                 {{ $transaction->desc }}
             </div>
             @endunless
-            <div class="@unless (empty($transaction->desc)) col-6 @else col-12 @endunless">
+            <div class="@unless (empty($transaction->desc)) col-sm-6 @else col-12 @endunless">
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -65,7 +65,7 @@
     @unless ($percent === null)
     <div class="card-footer bg-white">
         <div class="col-12">
-            <h4>Note:</h4>
+            <h4>Summary:</h4>
             <div class="progress">
                 <div class="progress-bar bg-danger" role="progressbar" style="{{ __("width: $percent%") }}"
                     aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">

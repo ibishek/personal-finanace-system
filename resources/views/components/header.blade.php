@@ -1,5 +1,6 @@
 <div class="card no-bg rounded-0 border-0">
-    <div class="card-body row">
+    <div class="pl-4"><small>{{ Config('app.name', 'PFMS') }}</small></div>
+    <div class="card-body initial row">
         <h2 class="card-title col-md-8">{{ $title }}</h2>
         <a href="{{ url()->previous() }}" class="btn btn-quick-back shadow-sm h-100">
             <i class="fa fa-angle-left"> </i>

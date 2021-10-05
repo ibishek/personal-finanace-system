@@ -8,8 +8,6 @@ use App\Models\{Balance, Budget, Category, PaymentOption, Transaction};
 
 class AjaxDashboardController extends Controller
 {
-    private $__currentBudgetId;
-
     /**
      * Reject any request other than ajax
      */
@@ -25,9 +23,9 @@ class AjaxDashboardController extends Controller
      */
     public function getCurrentBudget()
     {
-        $budget = Budget::where('is_active', 1)->first();
-        if ($budget) {
-            return response()->json($budget, 200);
+        $budgetTitle = Budget::where('is_active', 1)->first('title');
+        if ($budgetTitle) {
+            return response()->json($budgetTitle, 200);
         }
 
         return response()->json([
@@ -45,7 +43,7 @@ class AjaxDashboardController extends Controller
      */
     public function generalInfo()
     {
-        $this->__currentBudgetId = Budget::getCurrentBudgetId();
+        $this->__currentBudgetId = Budget::getExactCurrentBudgetId();
         $incomeIds = Category::getAllIdHavingDebitEntry();
         $expenseIds = Category::getAllIdHavingCreditEntry();
 
@@ -86,7 +84,7 @@ class AjaxDashboardController extends Controller
      */
     public function currentBudgetAmount()
     {
-        $budgetId = Budget::getCurrentBudgetId();
+        $budgetId = Budget::getExactCurrentBudgetId();
         $amount = Budget::where('id', $budgetId)
             ->get('alloted_amount');
 
@@ -115,7 +113,7 @@ class AjaxDashboardController extends Controller
      */
     public function tenIncomes()
     {
-        $this->__currentBudgetId = Budget::getCurrentBudgetId();
+        $this->__currentBudgetId = Budget::getExactCurrentBudgetId();
         $incomeIds = Category::getAllIdHavingDebitEntry();
 
         $incomeTransaction = Transaction::select(['title', 'amount'])
@@ -135,7 +133,7 @@ class AjaxDashboardController extends Controller
      */
     public function tenExpense()
     {
-        $this->__currentBudgetId = Budget::getCurrentBudgetId();
+        $this->__currentBudgetId = Budget::getExactCurrentBudgetId();
         $expenseIds = Category::getAllIdHavingCreditEntry();
         // if (!$this->__currentBudgetId) {
 

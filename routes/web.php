@@ -56,6 +56,7 @@ Route::middleware('auth')->group(function () {
         Route::get('budgets/show/{id}', [BudgetController::class, 'show']);
         Route::get('budgets/create', [BudgetController::class, 'create']);
         Route::post('budgets/store', [BudgetController::class, 'store']);
+        // *** end budget term is coming soon
 
         //Category Controller
         Route::get('categories/index', [CategoryController::class, 'index']);

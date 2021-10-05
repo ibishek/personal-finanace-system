@@ -20,7 +20,6 @@
             <input type="submit" name="submit" value="Delete" class="btn btn-danger ml-2" />
         </form>
         @endif
-        <a href="{{ url()->previous() }}" class="btn btn-info ml-2">{{ __('Back with Reload') }}</a>
     </div>
 </div>
 @endsection

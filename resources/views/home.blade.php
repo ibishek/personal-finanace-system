@@ -109,7 +109,7 @@
         </div>
     </div>
     <div class="col-lg-6">
-
+        <canvas id="system-core"></canvas>
     </div>
 </div>
 
