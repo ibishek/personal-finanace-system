@@ -98,7 +98,7 @@
 
 <div class="row m-2">
     <div class="col-lg-6">
-        <div class="card">
+        <div class="card border-0">
             <div class="card-header bg-white">
                 <i class="fa fa-chevron-circle-left text-primary mr-2"></i>
                 <strong>Previous Budgets</strong>
@@ -109,7 +109,7 @@
         </div>
     </div>
     <div class="col-lg-6">
-        <canvas id="system-core"></canvas>
+        <canvas class="bg-white" id="system-core"></canvas>
     </div>
 </div>
 
