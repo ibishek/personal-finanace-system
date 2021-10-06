@@ -24,9 +24,6 @@
     {{-- Font-awesome CDN --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-    {{-- From local --}}
-    {{-- <link rel="stylesheet" href="{{ asset('vendor/css/bootstrap.min.css') }}" /> --}}
-
     {{-- Styles --}}
     @yield('style')
     <link href="{{ asset('css/dev.min.css') }}" rel="stylesheet" />
@@ -34,7 +31,6 @@
 
 <body>
 
-    @auth
     {{-- Sidebar close button --}}
     <div class="sidebar-close text-center" id="sidebar-close">
         <i class="fa fa-chevron-left"></i>
@@ -42,7 +38,6 @@
     {{-- Vertical navbar --}}
     @include('layouts.sidebar-new')
     {{-- End vertical navbar --}}
-    @endauth
 
     {{-- Main page content --}}
     <main class="page-content px-2 py-5" id="content">
@@ -50,7 +45,6 @@
             <i class="fa fa-bars mr-2"></i>
             <small class="text-uppercase font-weight-bold">Menu</small>
         </button>
-        {{-- <small class="float-right">{{ Config('app.name', 'PFMS') }}</small> --}}
         @yield('content')
     </main>
     {{-- End main page content --}}
@@ -59,11 +53,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.1/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
-
-    {{-- From local --}}
-    {{-- <script src="{{ asset('vendor/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('vendor/js/popper.min.js') }}"></script>
-    <script src="{{ asset('vendor/js/bootstrap.min.js') }}"></script> --}}
 
     @yield('script')
 

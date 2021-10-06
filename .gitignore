@@ -13,3 +13,5 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+/resources/views/layouts/sidebar.blade.php
+/public/vendor/telescope

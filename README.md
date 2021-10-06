@@ -19,16 +19,34 @@ Personal finance is a single-user financial records keeping system. It encourage
 -   `$ git clone https://github.com/ibishek/personal-finanace-system.git`
 -   `$ cd project-folder`
 -   `$ composer install`
--   `$ npm install`
--   `$ npm run dev`
+-   Rename .env.example to .env
+-   `$ php artisan key:generate`
+-   Simpley create database named `personal_finance` or
+-   Create a database and insert credentials inside .env file
 -   `$ php artisan migrate`
 -   `$ php artisan db:seed`
 -   `$ php artisan serve`
 -   User-email: `info@jondoe.com` and User-password: `jondoe` or click on default login button
 
-## Code of Conduct
+## Schema Design
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+You can see the schema design from [here](https://dbdiagram.io/d/6142dfc5825b5b014604a4f8).
+
+## Libraries, Frameworks and System
+
+-   Accounting js for formating numbers/amounts _v0.4.2 public\vendor\js\accounting.min.js_
+-   Bootstrap CSS Framework _v4.6.0 CDN_
+-   Chart js _v3.5.1 CDN_
+-   Fontawesome _v4.7.0 CDN_
+-   jQuery JavaScript Library _v 3.6.0 CDN_
+-   Laravel PHP Framework _v8.61.0_
+-   Particles js for snowfall effect in the login page _v2.0.0 public\vendor\js\particles.min.js with particles.settings.js and settings.json_
+-   Popperjs _v2.10.1 CDN_
+-   Sass to process scss _reources\sass\dev.scss_
+
+## Font
+
+-   Poppins _googlefonts_
 
 ## Bugs and Errors
 

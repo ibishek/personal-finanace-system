@@ -23,9 +23,6 @@
     {{-- Font-awesome CDN --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-    {{-- From local --}}
-    {{-- <link rel="stylesheet" href="{{ asset('vendor/css/bootstrap.min.css') }}" /> --}}
-
     {{-- Styles --}}
     @yield('style')
     <link href="{{ asset('css/dev.min.css') }}" rel="stylesheet" />
