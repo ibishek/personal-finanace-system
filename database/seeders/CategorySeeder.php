@@ -14,7 +14,6 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        $categories = new Category();
         $categories = array(
             array('title' => 'Income', 'entry' => 'dr', 'is_deletable' => 0),
             array('title' => 'Expense', 'entry' => 'cr', 'is_deletable' => 0),
@@ -22,6 +21,6 @@ class CategorySeeder extends Seeder
             array('title' => 'Loss', 'entry' => 'cr', 'is_deletable' => 1)
         );
 
-        $categories->save();
+        Category::create($categories);
     }
 }

@@ -14,7 +14,6 @@ class PaymentOptionSeeder extends Seeder
      */
     public function run()
     {
-        $options = new PaymentOption();
         $options = array(
             array('title' => 'Cash on Hand', 'is_deletable' => 0, 'balance' => 00.00),
             array('title' => 'Debit/Credit Card', 'is_deletable' => 1, 'balance' => 00.00),
@@ -22,6 +21,6 @@ class PaymentOptionSeeder extends Seeder
             array('title' => 'Wire Transfer', 'is_deletable' => 1, 'balance' => 00.00),
         );
 
-        $options->save();
+        PaymentOption::create($options);
     }
 }
