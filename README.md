@@ -30,7 +30,7 @@ Personal finance is a single-user financial records keeping system. It encourage
 
 ## Schema Design
 
-You can see the schema design from [here](https://dbdiagram.io/d/6142dfc5825b5b014604a4f8){:target="\_blank"}.
+You can see the schema design from [here](https://dbdiagram.io/d/6142dfc5825b5b014604a4f8?target=_blank).
 
 ## Libraries, Frameworks and System
 
