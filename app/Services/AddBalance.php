@@ -45,7 +45,7 @@ class AddBalance
                     'error' => 'Requested amount is less than balance amount'
                 ];
             }
-            $paymentOption->decrement('amount', $unmaskedAmount);
+            $paymentOption->decrement('balance', $unmaskedAmount);
             return [
                 'status' => true,
                 'success' => 'Balane withdrawn successfully'

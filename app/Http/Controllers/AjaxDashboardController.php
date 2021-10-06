@@ -43,7 +43,7 @@ class AjaxDashboardController extends Controller
      */
     public function generalInfo()
     {
-        $this->__currentBudgetId = Budget::getExactCurrentBudgetId();
+        $this->__currentBudgetId = Budget::getCurrentBudgetId();
         $incomeIds = Category::getAllIdHavingDebitEntry();
         $expenseIds = Category::getAllIdHavingCreditEntry();
 
@@ -84,7 +84,7 @@ class AjaxDashboardController extends Controller
      */
     public function currentBudgetAmount()
     {
-        $budgetId = Budget::getExactCurrentBudgetId();
+        $budgetId = Budget::getCurrentBudgetId();
         $amount = Budget::where('id', $budgetId)
             ->get('alloted_amount');
 
@@ -113,7 +113,7 @@ class AjaxDashboardController extends Controller
      */
     public function tenIncomes()
     {
-        $this->__currentBudgetId = Budget::getExactCurrentBudgetId();
+        $this->__currentBudgetId = Budget::getCurrentBudgetId();
         $incomeIds = Category::getAllIdHavingDebitEntry();
 
         $incomeTransaction = Transaction::select(['title', 'amount'])
@@ -133,7 +133,7 @@ class AjaxDashboardController extends Controller
      */
     public function tenExpense()
     {
-        $this->__currentBudgetId = Budget::getExactCurrentBudgetId();
+        $this->__currentBudgetId = Budget::getCurrentBudgetId();
         $expenseIds = Category::getAllIdHavingCreditEntry();
         // if (!$this->__currentBudgetId) {
 

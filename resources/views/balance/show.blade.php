@@ -15,7 +15,6 @@
         <a href="{{ url('api/balances/add-balance',$balance->id) }}"
             class="btn btn-primary">{{ __('Deposit/Withdraw Amount') }}
         </a>
-        <a href="{{ url()->previous() }}" class="btn btn-info ml-2">{{ __('Back with Reload') }}</a>
     </div>
 </div>
 @endsection
