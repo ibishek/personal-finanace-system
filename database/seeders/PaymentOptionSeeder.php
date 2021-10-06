@@ -21,6 +21,6 @@ class PaymentOptionSeeder extends Seeder
             array('title' => 'Wire Transfer', 'is_deletable' => 1, 'balance' => 00.00),
         );
 
-        PaymentOption::create($options);
+        array_map(fn ($option) => PaymentOption::create($option), $options);
     }
 }

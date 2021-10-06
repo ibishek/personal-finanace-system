@@ -21,6 +21,6 @@ class CategorySeeder extends Seeder
             array('title' => 'Loss', 'entry' => 'cr', 'is_deletable' => 1)
         );
 
-        Category::create($categories);
+        array_map(fn ($category) => Category::create($category), $categories);
     }
 }
