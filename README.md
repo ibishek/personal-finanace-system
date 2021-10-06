@@ -1,4 +1,4 @@
-## About Personal Finanace Management System
+## About Personal Finance Management System
 
 Personal finance is a single-user financial records keeping system. It encourages you to maintain your overspending habits. At first, you have to create an estimated spending amount called a budget for a definite term. After that, it assists you to keep track of how much you have earned and spent within that budget. You can get detailed reports via GUI charts powered by Chart js.
 
@@ -19,9 +19,9 @@ Personal finance is a single-user financial records keeping system. It encourage
 -   `$ git clone https://github.com/ibishek/personal-finanace-system.git`
 -   `$ cd project-folder`
 -   `$ composer install`
--   Rename .env.example to .env
+-   Rename `.env.example` to `.env`
 -   `$ php artisan key:generate`
--   Simply create database named `personal_finance` or
+-   Simply create a database named `personal_finance` or
 -   Create a database and insert credentials inside .env file
 -   `$ php artisan migrate`
 -   `$ php artisan db:seed`
@@ -30,7 +30,7 @@ Personal finance is a single-user financial records keeping system. It encourage
 
 ## Schema Design
 
-You can see the schema design from [here](https://dbdiagram.io/d/6142dfc5825b5b014604a4f8).
+You can see the schema design from [here](https://dbdiagram.io/d/6142dfc5825b5b014604a4f8){:target="\_blank"}.
 
 ## Libraries, Frameworks and System
 
@@ -50,7 +50,7 @@ You can see the schema design from [here](https://dbdiagram.io/d/6142dfc5825b5b0
 
 ## Bugs and Errors
 
-If you discover any bugs and errors within this project, please do not hesitate to raise an [issue](https://github.com/ibishek/personal-finanace-system/issues/new/choose). All issues are corrected as soon as possible. Your simple effort could help us to make this project better. By default debug is false, however, you can change it in .env.
+If you discover any bugs and errors within this project, please do not hesitate to raise an [issue](https://github.com/ibishek/personal-finanace-system/issues/new/choose). All issues are corrected as soon as possible. Your simple effort could help us to make this project better. By default debuggin mode is false, however, you can change it in .env.
 
 ## Security Vulnerabilities
 
