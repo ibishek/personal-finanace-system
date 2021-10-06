@@ -2,6 +2,10 @@
 
 Personal finance is a single-user financial records keeping system. It encourages you to maintain your overspending habits. At first, you have to create an estimated spending amount called a budget for a definite term. After that, it assists you to keep track of how much you have earned and spent within that budget. You can get detailed reports via GUI charts powered by Chart js.
 
+## Dashboard
+
+![Dashboard Image](https://repository-images.githubusercontent.com/407355401/8d6267ae-6c7e-4423-a8b2-b0cb4d01f923)
+
 ## Required Applications
 
 -   [XMPP](https://www.apachefriends.org/) or any web server for php code execution
