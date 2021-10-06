@@ -21,7 +21,7 @@ Personal finance is a single-user financial records keeping system. It encourage
 -   `$ composer install`
 -   Rename .env.example to .env
 -   `$ php artisan key:generate`
--   Simpley create database named `personal_finance` or
+-   Simply create database named `personal_finance` or
 -   Create a database and insert credentials inside .env file
 -   `$ php artisan migrate`
 -   `$ php artisan db:seed`
@@ -37,8 +37,8 @@ You can see the schema design from [here](https://dbdiagram.io/d/6142dfc5825b5b0
 -   Accounting js for formating numbers/amounts _v0.4.2 public\vendor\js\accounting.min.js_
 -   Bootstrap CSS Framework _v4.6.0 CDN_
 -   Chart js _v3.5.1 CDN_
--   Fontawesome _v4.7.0 CDN_
--   jQuery JavaScript Library _v 3.6.0 CDN_
+-   Font-awesome _v4.7.0 CDN_
+-   jQuery JavaScript Library _v3.6.0 CDN_
 -   Laravel PHP Framework _v8.61.0_
 -   Particles js for snowfall effect in the login page _v2.0.0 public\vendor\js\particles.min.js with particles.settings.js and settings.json_
 -   Popperjs _v2.10.1 CDN_
@@ -50,7 +50,7 @@ You can see the schema design from [here](https://dbdiagram.io/d/6142dfc5825b5b0
 
 ## Bugs and Errors
 
-If you discover any bugs and errors within this project, please do not hesitate to raise an [issue](https://github.com/ibishek/personal-finanace-system/issues/new/choose). All issues are corrected as soon as possible. Your simple effort could help us to make this project better.
+If you discover any bugs and errors within this project, please do not hesitate to raise an [issue](https://github.com/ibishek/personal-finanace-system/issues/new/choose). All issues are corrected as soon as possible. Your simple effort could help us to make this project better. By default debug is false, however, you can change it in .env.
 
 ## Security Vulnerabilities
 
