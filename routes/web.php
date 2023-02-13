@@ -14,9 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/{any}', function () {
-    return view('app');
-})->where('any', '(.*)');
+Route::middleware('guest')->group(function () {
+    Route::post('register', [AuthController::class, 'register']);
+    Route::get('login', function () {
+        return view('app');
+    })->name('login');
+    Route::post('login', [AuthController::class, 'login']);
 
-Route::post('register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
+
+    Route::get('/{any}', function () {
+        return view('app');
+    })->where('any', '(.*)');
+});

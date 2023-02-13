@@ -6,11 +6,12 @@ import Button from "@/components/Button.vue";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../store/authProvider";
+import axios from "axios";
 
 const router = useRouter();
 
 const credentials = ref({
-    email: "admin@admin.com",
+    email: "abhishek@abhishek.com",
     password: "Admin12345"
 });
 
@@ -22,9 +23,11 @@ function loginUser() {
         axios.post('/login', {...credentials.value})
         .then(data => {
             authStore.getUser();
-            router.push({
-                name: 'Dashboard'
-            });
+            if (authStore.isAuthenticated) {
+                router.push({
+                    name: 'Dashboard'
+                });
+            }
         })
         .catch((error) => {
             console.log(error);
@@ -38,7 +41,7 @@ function loginUser() {
         <div class="grid h-screen place-items-center">
             <div class="px-8 py-12 bg-white shadow-lg relative">
                 <h1 class="text-2xl text-center font-bold mb-8">Login</h1>
-                <form @submit.prevent="loginUser" class="space-y-3">
+                <form class="space-y-3">
                     <YGap>
                         <Label for="email">Email:</Label>
                         <Input id="email" name="email" v-model="credentials.email" required></Input>
@@ -48,7 +51,7 @@ function loginUser() {
                         <Input id="password" inputType="password" name="password" v-model="credentials.password" required></Input>
                     </YGap>
                     <Button buttonType="submit">
-                        Login
+                        <span @click.prevent="loginUser">Login</span>
                     </Button>
                 </form>
             </div>
