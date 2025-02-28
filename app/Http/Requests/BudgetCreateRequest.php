@@ -24,11 +24,12 @@ class BudgetCreateRequest extends FormRequest
     public function rules()
     {
         $weeks = now()->addDays(5)->format('Y-m-d');
+
         return [
             'title' => ['required', 'string', 'min:5'],
             'desc' => ['string', 'nullable'],
             'alloted_amount' => ['required'],
-            'expiry_date' => ['required', 'date', 'date_format:Y-m-d', 'after:' . $weeks]
+            'expiry_date' => ['required', 'date', 'date_format:Y-m-d', 'after:'.$weeks],
         ];
     }
 
@@ -48,7 +49,7 @@ class BudgetCreateRequest extends FormRequest
             'expiry_date.required' => 'Expiry date is required',
             'expiry_date.date' => 'Invalid date format',
             'expiry_date.date_format' => 'Expiry date format must be Year-Months-Day',
-            'expiry_date.after' => 'Budget duration must be atleast one week is required'
+            'expiry_date.after' => 'Budget duration must be atleast one week is required',
         ];
     }
 }

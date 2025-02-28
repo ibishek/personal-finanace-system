@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PaymentOption extends Model
@@ -56,8 +55,6 @@ class PaymentOption extends Model
 
     /**
      * Get all of the transaction for the PaymentOption
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function transaction(): HasMany
     {

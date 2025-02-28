@@ -26,7 +26,7 @@ class CategoryRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'min:5'],
             'desc' => ['string', 'nullable', 'min:10', 'max:250'],
-            'entry' => ['required', 'string', 'max:2']
+            'entry' => ['required', 'string', 'max:2'],
         ];
     }
 
@@ -46,7 +46,7 @@ class CategoryRequest extends FormRequest
             'desc.max' => 'Description is too long',
             'entry.required' => 'Entry principle is required',
             'entry.string' => 'Entry principle is invalid',
-            'entry.max' => 'Entry principle is too long'
+            'entry.max' => 'Entry principle is too long',
         ];
     }
 }

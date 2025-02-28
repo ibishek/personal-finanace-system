@@ -28,7 +28,7 @@ class TransactionCreateRequest extends FormRequest
             'desc' => ['string', 'nullable', 'min:8'],
             'mode' => ['required'],
             'category' => ['required'],
-            'amount' => ['required']
+            'amount' => ['required'],
         ];
     }
 

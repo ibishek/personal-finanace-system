@@ -25,7 +25,7 @@ class PaymentOptionRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'min:5'],
-            'desc' => ['min:10', 'nullable', 'max:150']
+            'desc' => ['min:10', 'nullable', 'max:150'],
         ];
     }
 
@@ -41,7 +41,7 @@ class PaymentOptionRequest extends FormRequest
             'title.string' => 'Title is invalid',
             'title.min' => 'Title is too short',
             'desc.min' => 'Description is too short',
-            'desc.max' => 'Description is too long'
+            'desc.max' => 'Description is too long',
         ];
     }
 }

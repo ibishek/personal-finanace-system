@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\{Budget, Category, Transaction};
 use App\Http\Requests\BudgetCreateRequest;
-use App\Services\{CacheRemember, UnmaskAmount};
+use App\Models\Budget;
+use App\Models\Category;
+use App\Models\Transaction;
+use App\Services\CacheRemember;
+use App\Services\UnmaskAmount;
+use Illuminate\Http\Request;
 
 class BudgetController extends Controller
 {
@@ -51,6 +54,7 @@ class BudgetController extends Controller
         Budget::create($validated);
 
         (new CacheRemember())->cacheBudget();
+
         return redirect('api/budgets/index')->with('success', 'Budget successfully created');
     }
 
@@ -69,7 +73,7 @@ class BudgetController extends Controller
         foreach ($categoriesId as $cId) {
             $noOfIncomeTransactions += Transaction::where([
                 'budget_id' => $id,
-                'category_id' => $cId->id
+                'category_id' => $cId->id,
             ])->count();
         }
 
@@ -90,7 +94,6 @@ class BudgetController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

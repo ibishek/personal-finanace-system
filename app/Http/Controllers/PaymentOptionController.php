@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\PaymentOption;
-use App\Services\{CacheRemember, PaymentOptionDelete};
 use App\Http\Requests\PaymentOptionRequest;
+use App\Models\PaymentOption;
+use App\Services\CacheRemember;
+use App\Services\PaymentOptionDelete;
+use Illuminate\Http\Request;
 
 class PaymentOptionController extends Controller
 {
@@ -22,7 +23,7 @@ class PaymentOptionController extends Controller
                 ->get('title');
         }
 
-        $paymentOptions = (new CacheRemember)->getCache('option');
+        $paymentOptions = (new CacheRemember())->getCache('option');
 
         return view('payment-option.index', compact('paymentOptions'));
     }
@@ -35,7 +36,7 @@ class PaymentOptionController extends Controller
     public function amount($id)
     {
         abort_unless(request()->ajax(), 403);
-        $amount =  PaymentOption::where('id', $id)
+        $amount = PaymentOption::where('id', $id)
             ->get('balance');
 
         return response()->json($amount, 200);
@@ -99,7 +100,6 @@ class PaymentOptionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -111,6 +111,7 @@ class PaymentOptionController extends Controller
         $option->update($request->only(['title', 'desc']));
 
         (new CacheRemember())->cacheOption();
+
         return redirect('api/payment-options/index')
             ->with('success', 'Payment option updated successfully');
     }
@@ -126,10 +127,11 @@ class PaymentOptionController extends Controller
         $this->paymentOptionDelete = new PaymentOptionDelete();
         $resolve = $this->paymentOptionDelete->onDelete($id);
 
-        if (!$resolve['status']) {
-            return back()->with('error', $resolve["error"]);
+        if (! $resolve['status']) {
+            return back()->with('error', $resolve['error']);
         }
-        (new CacheRemember)->cacheOption();
+        (new CacheRemember())->cacheOption();
+
         return redirect('api/payment-options/index')->with('success', $resolve['success']);
     }
 }

@@ -1,16 +1,20 @@
 <?php
-//phpcs:ignoreFile
+
+// phpcs:ignoreFile
+
 namespace App\Services;
 
+use App\Models\Budget;
+use App\Models\Category;
+use App\Models\PaymentOption;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
-use App\Models\{Budget, Category, PaymentOption};
 
-//----------------------- Cacheing is currently under revision --------------------------//
+// ----------------------- Cacheing is currently under revision --------------------------//
 class CacheRemember
 {
     /**
-     * Cache remember constant in seconds 
+     * Cache remember constant in seconds
      * 6 hours
      */
     private const __SECONDS = 6 * 60 * 60;
@@ -26,7 +30,7 @@ class CacheRemember
     }
 
     /**
-     * Remeber budgets 
+     * Remeber budgets
      *
      * @return array
      */
@@ -41,7 +45,7 @@ class CacheRemember
     }
 
     /**
-     * Remeber categories 
+     * Remeber categories
      *
      * @return array
      */
@@ -56,7 +60,7 @@ class CacheRemember
     }
 
     /**
-     * Remeber payment modes 
+     * Remeber payment modes
      *
      * @return array
      */
@@ -73,7 +77,7 @@ class CacheRemember
     /**
      * Retrun the cache for specific resource
      *
-     * @param string $key
+     * @param  string  $key
      * @return array
      */
     public function getCache($key)
@@ -81,8 +85,9 @@ class CacheRemember
         if (Cache::has($key)) {
             return Cache::get($key);
         }
-        $functionName = "cache" . Str::ucfirst($key);
+        $functionName = 'cache'.Str::ucfirst($key);
         $this->$functionName();
+
         return Cache::get($key);
     }
 }

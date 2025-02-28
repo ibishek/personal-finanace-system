@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Budget, Category, Transaction};
+use App\Models\Budget;
+use App\Models\Category;
+use App\Models\Transaction;
 
 class CurrentBudgetController extends Controller
 {
@@ -23,7 +25,7 @@ class CurrentBudgetController extends Controller
             foreach ($categoriesId as $cId) {
                 $noOfIncomeTransactions += Transaction::where([
                     'budget_id' => $budget->id,
-                    'category_id' => $cId->id
+                    'category_id' => $cId->id,
                 ])->count();
             }
 
@@ -37,7 +39,7 @@ class CurrentBudgetController extends Controller
      * Returns the absolute difference between 2 dates.
      * ex. 10 - 5 = 4
      *
-     * @param  date $budget->expiry_date
+     * @param  date  $budget->expiry_date
      * @return int day(s)
      */
     public static function remainingDays($expiryDate)
@@ -47,7 +49,7 @@ class CurrentBudgetController extends Controller
 
     /**
      * Check whether current budget is expired or not at login time
-     * 
+     *
      * @return null
      */
     public function whetherBudgetIsExpired()
@@ -58,9 +60,9 @@ class CurrentBudgetController extends Controller
             if ($remainingDays == 0) {
                 $today = \Carbon\Carbon::parse(now());
                 $isSameDay = $today->isSameDay($budget->expiry_date); // true or false
-                if (!$isSameDay) {
+                if (! $isSameDay) {
                     $budget->update([
-                        'is_active' => 0
+                        'is_active' => 0,
                     ]);
                 }
             }

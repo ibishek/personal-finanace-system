@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Services\AddBalance;
 use App\Models\PaymentOption;
+use App\Services\AddBalance;
+use Illuminate\Http\Request;
 
 class BalanceController extends Controller
 {
@@ -49,7 +49,6 @@ class BalanceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -57,13 +56,13 @@ class BalanceController extends Controller
     {
         $request->validate([
             'balance' => 'required',
-            'condition' => 'required'
+            'condition' => 'required',
         ]);
 
         $this->addBalance = new AddBalance();
         $resolve = $this->addBalance->saveBalance($request->balance, $request->condition, $id);
 
-        if (!$resolve['status']) {
+        if (! $resolve['status']) {
             return redirect()->back()->with('error', $resolve['error']);
         }
 

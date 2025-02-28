@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use App\Services\CacheRemember;
-use App\Http\Requests\CategoryRequest;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -19,7 +19,7 @@ class CategoryController extends Controller
         if (request()->ajax()) {
             return Category::get(['title']);
         }
-        $categories = (new CacheRemember)->getCache('category');
+        $categories = (new CacheRemember())->getCache('category');
 
         return view('category.index', compact('categories'));
     }
@@ -38,6 +38,7 @@ class CategoryController extends Controller
      * Store a newly created resource in storage.
      *
      * @ param  \Illuminate\Http\Request  $request
+     *
      * @ return \Illuminate\Http\Response
      */
     public function store(CategoryRequest $request)
@@ -45,6 +46,7 @@ class CategoryController extends Controller
         Category::create($request->validated());
 
         (new CacheRemember())->cacheCategory();
+
         return redirect('api/categories/index')->with('success', 'Category is created successfully');
     }
 
@@ -56,7 +58,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category  = Category::findOrFail($id);
+        $category = Category::findOrFail($id);
 
         return view('category.show', compact('category'));
     }
@@ -77,7 +79,6 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -87,6 +88,7 @@ class CategoryController extends Controller
         $category->update($request->validated());
 
         (new CacheRemember())->cacheCategory();
+
         return redirect('api/categories/index')->with('success', 'Category is updated successfully');
     }
 
@@ -108,6 +110,7 @@ class CategoryController extends Controller
         $category->delete();
 
         (new CacheRemember())->cacheCategory();
+
         return redirect('api/categories/index')->with('success', 'Category is deleted successfully');
     }
 }

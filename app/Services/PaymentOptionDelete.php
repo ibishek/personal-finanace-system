@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\{PaymentOption, Transaction};
+use App\Models\PaymentOption;
+use App\Models\Transaction;
 
 class PaymentOptionDelete
 {
@@ -19,24 +20,24 @@ class PaymentOptionDelete
     /**
      * Delete the resource
      *
-     * @param int $id
+     * @param  int  $id
      * @return array
      */
     public function onDelete($id)
     {
         $isEnabled = $this->__isDeleteEnabled($id);
-        if (!$isEnabled) {
+        if (! $isEnabled) {
             return [
                 'status' => false,
-                'error' => 'Payment option cannnot be deleted'
+                'error' => 'Payment option cannnot be deleted',
             ];
         }
 
         $zeroNoOfTransaction = $this->__foundAnyTransaction($id);
-        if (!$zeroNoOfTransaction) {
+        if (! $zeroNoOfTransaction) {
             return [
                 'status' => false,
-                'error' => 'Payment option having transaction(s) is/are cannot be deleted'
+                'error' => 'Payment option having transaction(s) is/are cannot be deleted',
             ];
         }
 
@@ -44,32 +45,34 @@ class PaymentOptionDelete
         if ($getPaymentOption->delete()) {
             return [
                 'status' => true,
-                'success' => 'Payment option deleted successfully'
+                'success' => 'Payment option deleted successfully',
             ];
         }
 
         return [
             'status' => false,
-            'error' => 'There was a problem encountered while deleting'
+            'error' => 'There was a problem encountered while deleting',
         ];
     }
 
     /**
      * Check whether if user can delete or not
      *
-     * @param int $id
-     * @return boolean
+     * @param  int  $id
+     * @return bool
      */
     private function __isDeleteEnabled($id)
     {
 
         $isEnabled = $this->q()->where('id', $id)->first();
+
         return $isEnabled->is_deletable === 1 ? true : false;
     }
 
     private function __foundAnyTransaction($id)
     {
         $noOfTransactions = Transaction::where('option_id', $id)->count();
+
         return $noOfTransactions === 0 ? true : false;
     }
 }

@@ -25,7 +25,7 @@ class CategoryFactory extends Factory
             'title' => $this->faker->text(15),
             'desc' => $this->faker->text(50),
             'entry' => $this->faker->randomElement(['dr', 'cr']),
-            'is_deletable' => 1
+            'is_deletable' => 1,
         ];
     }
 }

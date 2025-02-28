@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Models\{Budget, Category, PaymentOption};
 
 class Transaction extends Model
 {
@@ -34,7 +33,7 @@ class Transaction extends Model
 
     /**
      * Get the transaction's title.
-     * 
+     *
      * @param  string  $value
      * @return string
      */
@@ -56,8 +55,6 @@ class Transaction extends Model
 
     /**
      * Get the budget that owns the Transaction
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function budget(): BelongsTo
     {
@@ -66,21 +63,17 @@ class Transaction extends Model
 
     /**
      * Get the paymentMode that owns the Transaction
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function paymentOption(): BelongsTo
     {
         return $this->belongsTo(PaymentOption::class, 'option_id', 'id')
             ->withDefault([
-                'title' => '-'
+                'title' => '-',
             ]);
     }
 
     /**
      * Get the category that owns the Transaction
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function category(): BelongsTo
     {

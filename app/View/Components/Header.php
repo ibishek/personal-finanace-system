@@ -6,7 +6,12 @@ use Illuminate\View\Component;
 
 class Header extends Component
 {
-    public $title, $link, $showCreate;
+    public $title;
+
+    public $link;
+
+    public $showCreate;
+
     /**
      * Create a new component instance.
      *

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 // use Illuminate\Http\Request;
-use DB;
-use App\Models\{Balance, Budget, Category, PaymentOption, Transaction};
+use App\Models\Balance;
+use App\Models\Budget;
+use App\Models\Category;
+use App\Models\PaymentOption;
+use App\Models\Transaction;
 
 class AjaxDashboardController extends Controller
 {
@@ -30,8 +33,8 @@ class AjaxDashboardController extends Controller
 
         return response()->json([
             0 => [
-                'title' => 'No active budget found. Please, create a new one.'
-            ]
+                'title' => 'No active budget found. Please, create a new one.',
+            ],
         ], 200);
     }
 
@@ -60,7 +63,7 @@ class AjaxDashboardController extends Controller
         $cashOnHandAmount = PaymentOption::first('balance');
 
         return response()->json([
-            $totalIncome, $totalExpense, $totalBalance, $cashOnHandAmount
+            $totalIncome, $totalExpense, $totalBalance, $cashOnHandAmount,
         ], 200);
     }
 
@@ -92,7 +95,7 @@ class AjaxDashboardController extends Controller
     }
 
     /**
-     * Display latest five budgets 
+     * Display latest five budgets
      *
      * @return json
      */

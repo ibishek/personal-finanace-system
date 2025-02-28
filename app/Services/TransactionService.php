@@ -1,9 +1,13 @@
 <?php
-//phpcs:ignoreFile
+
+// phpcs:ignoreFile
+
 namespace App\Services;
 
-use App\Models\{Budget, Category, PaymentOption, Transaction};
-use App\Services\UnmaskAmount;
+use App\Models\Budget;
+use App\Models\Category;
+use App\Models\PaymentOption;
+use App\Models\Transaction;
 use DB;
 
 class TransactionService
@@ -11,7 +15,7 @@ class TransactionService
     /**
      * It saves transaction and its associated requests
      *
-     * @param array $request
+     * @param  array  $request
      * @return array
      */
     public function onSave($request)
@@ -28,7 +32,7 @@ class TransactionService
             'budget_id' => $budgetId,
             'option_id' => $request['mode'],
             'category_id' => $request['category'],
-            'amount' => $request['amount']
+            'amount' => $request['amount'],
         ];
 
         $entry = Category::getEntry($request['category']);
@@ -40,9 +44,10 @@ class TransactionService
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
+
                 return [
                     'status' => false,
-                    'error' => 'Error on' . $e,
+                    'error' => 'Error on'.$e,
                 ];
             }
         }
@@ -50,8 +55,8 @@ class TransactionService
         if ($entry == 'cr') {
             if ($balanceAmount < $request['amount']) {
                 return [
-                    "status" => false,
-                    "error" => "Balance amount is less than requested amount"
+                    'status' => false,
+                    'error' => 'Balance amount is less than requested amount',
                 ];
             }
 
@@ -59,8 +64,8 @@ class TransactionService
 
             if ($remainingBudgetBalance < $request['amount']) {
                 return [
-                    "status" => false,
-                    "error" => "Budget balance is less than requested amount"
+                    'status' => false,
+                    'error' => 'Budget balance is less than requested amount',
                 ];
             }
 
@@ -74,6 +79,7 @@ class TransactionService
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
+
                 return [
                     'status' => false,
                     'error' => "Error found $e",
@@ -83,19 +89,20 @@ class TransactionService
 
         return [
             'status' => true,
-            'success' => 'Transaction created successfully'
+            'success' => 'Transaction created successfully',
         ];
     }
 
     /**
      * Get balance amount
      *
-     * @param int $id
+     * @param  int  $id
      * @return float
      */
     private function __getBalance($id)
     {
-        $getBalance =  PaymentOption::where('id', $id)->first('balance');
+        $getBalance = PaymentOption::where('id', $id)->first('balance');
+
         return $getBalance->balance;
     }
 
@@ -106,17 +113,18 @@ class TransactionService
      */
     private function __getRemainingBudgetBalance($id)
     {
-        $budgetBalance =  Budget::where('id', $id)
+        $budgetBalance = Budget::where('id', $id)
             ->latest()
             ->first('balance_amount');
+
         return $budgetBalance->balance_amount;
     }
 
     /**
      * Add balance to payment option
      *
-     * @param int $id
-     * @param float $amount
+     * @param  int  $id
+     * @param  float  $amount
      * @return void
      */
     private function __addToPaymentOption($id, $amount)
@@ -127,8 +135,8 @@ class TransactionService
     /**
      * Deduct amount from budget estimate
      *
-     * @param int $id
-     * @param float $amount
+     * @param  int  $id
+     * @param  float  $amount
      * @return void
      */
     private function __deductFromBudget($id, $amount)
@@ -139,8 +147,8 @@ class TransactionService
     /**
      * Deduct balance from payment option
      *
-     * @param int $id
-     * @param float $amount
+     * @param  int  $id
+     * @param  float  $amount
      * @return void
      */
     private function __deductFromPaymentOption($id, $amount)

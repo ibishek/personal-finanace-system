@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use App\Models\Transaction;
 
 class Category extends Model
 {
@@ -56,8 +55,6 @@ class Category extends Model
 
     /**
      * Get the transaction associated with the Category
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function transaction(): HasOne
     {
@@ -67,12 +64,13 @@ class Category extends Model
     /**
      * Get the entry for specidic resource
      *
-     * @param int $id
+     * @param  int  $id
      * @return string
      */
     public static function getEntry($id)
     {
         $getEntry = Category::where('id', $id)->first('entry');
+
         return $getEntry->entry;
     }
 

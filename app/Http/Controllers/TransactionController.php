@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\{Budget, Transaction, Category, PaymentOption};
 use App\Http\Requests\TransactionCreateRequest;
-use App\Services\{
-    CacheRemember,
-    CalculatePercentageForExpenseTransaction,
-    TransactionService
-};
+use App\Models\Budget;
+use App\Models\Category;
+use App\Models\PaymentOption;
+use App\Models\Transaction;
+use App\Services\CacheRemember;
+use App\Services\CalculatePercentageForExpenseTransaction;
+use App\Services\TransactionService;
 
 class TransactionController extends Controller
 {
@@ -23,7 +23,8 @@ class TransactionController extends Controller
         $transactions = Transaction::orderBy('created_at', 'DESC')
             ->with(['budget', 'category', 'paymentOption'])
             ->paginate(20);
-        $modes = (new CacheRemember)->getCache('option');
+        $modes = (new CacheRemember())->getCache('option');
+
         return view('transaction.index', compact('transactions', 'modes'));
     }
 
@@ -56,7 +57,7 @@ class TransactionController extends Controller
         $validated = $request->validated();
         $resolve = (new TransactionService())->onSave($validated);
         // dd($resolve);
-        if (!$resolve['status']) {
+        if (! $resolve['status']) {
             return back()->with('error', $resolve['error'])->withInput();
         }
 

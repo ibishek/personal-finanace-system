@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Models\Transaction;
 
 class Budget extends Model
 {
@@ -70,8 +69,6 @@ class Budget extends Model
 
     /**
      * Get all of the transaction for the Budget
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function transaction(): HasMany
     {
@@ -86,9 +83,10 @@ class Budget extends Model
     public static function getCurrentBudgetId()
     {
         $budgetId = Budget::where('is_active', 1)->first('id');
-        if (!$budgetId) {
+        if (! $budgetId) {
             $budgetId = Budget::latest()->first('id');
         }
+
         return $budgetId;
     }
 
@@ -100,9 +98,10 @@ class Budget extends Model
     public static function getExactCurrentBudgetId()
     {
         $budgetId = Budget::where('is_active', 1)->first('id');
-        if (!$budgetId) {
+        if (! $budgetId) {
             $budgetId = Budget::latest()->first('id');
         }
+
         return $budgetId->id;
     }
 }
