@@ -47,11 +47,11 @@ class AjaxDashboardController extends Controller
         $incomeIds = Category::getAllIdHavingDebitEntry();
         $expenseIds = Category::getAllIdHavingCreditEntry();
 
-        $totalIncome = Transaction::where('budget_id', $this->__currentBudgetId)
+        $totalIncome = Transaction::whereIn('budget_id', $this->__currentBudgetId)
             ->whereIn('category_id', $incomeIds)
             ->sum('amount');
 
-        $totalExpense = Transaction::where('budget_id', $this->__currentBudgetId)
+        $totalExpense = Transaction::whereIn('budget_id', $this->__currentBudgetId)
             ->whereIn('category_id', $expenseIds)
             ->sum('amount');
 
